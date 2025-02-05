@@ -104,6 +104,35 @@ server.get("/ruta", request -> {
 ```
 
 ---
+---
+
+### **Ejemplo de uso**
+
+#### Configuración básica
+
+```java
+// Crear middleware CORS con valores predeterminados
+CorsMiddleware corsMiddleware = new CorsMiddleware();
+
+// Agregar middleware global
+server.use(corsMiddleware);
+```
+
+#### Configuración personalizada
+
+```java
+// Crear middleware CORS con configuración personalizada
+List<String> allowedOrigins = Arrays.asList("https://example.com", "https://api.example.com");
+List<String> allowedMethods = Arrays.asList("GET", "POST");
+List<String> allowedHeaders = Arrays.asList("Content-Type", "Authorization");
+
+CorsMiddleware corsMiddleware = new CorsMiddleware(allowedOrigins, allowedMethods, allowedHeaders);
+
+// Agregar middleware global
+server.use(corsMiddleware);
+```
+
+---
 
 ## **Respuestas**
 
