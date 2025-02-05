@@ -3,6 +3,7 @@ package com.github.angel.raa.modules;
 import com.github.angel.raa.modules.core.Response;
 import com.github.angel.raa.modules.core.Server;
 import com.github.angel.raa.modules.middleware.CorsMiddleware;
+
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -36,6 +37,7 @@ public class Main {
             response.addHeader("Content-Type", "text/plain"); // Especificamos el tipo de contenido
             return response;
         });
+
 
 
         server.post("/port", request ->  new Response(200, new JSONObject().put("message", "Okey con POST")));

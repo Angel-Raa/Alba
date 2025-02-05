@@ -14,6 +14,9 @@ public class Request {
     private final String method;
     private final String path;
     private final JSONObject body;
+    private final Map<String, Object> attributes = new HashMap<>();
+    private final Map<String, Object> sessionAttributes = new HashMap<>(); // Nuevo: Atributos de sesión
+
 
     public Request(String method, String path, Map<String, String> headers, JSONObject bodyString) {
         this.method = method;
@@ -96,5 +99,22 @@ public class Request {
     public void addHeader(String key, String value) {
         headers.put(key, value);
 
+    }
+
+   public void setAttribute(String key, Object value) {
+        attributes.put(key, value);
+    }
+
+    public Object getAttribute(String key) {
+        return attributes.get(key);
+    }
+
+    public Throwable getParams() {
+        return (Throwable) attributes.get("params");
+    }
+
+
+    public Object getSessionAttribute(String key) {
+        return sessionAttributes.get(key);
     }
 }
