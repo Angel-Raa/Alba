@@ -1,8 +1,8 @@
-package com.github.alba;
+package com.github.angel.raa.modules;
 
-import com.github.alba.core.Response;
-import com.github.alba.core.Server;
-import com.github.alba.middleware.CorsMiddleware;
+import com.github.angel.raa.modules.core.Response;
+import com.github.angel.raa.modules.core.Server;
+import com.github.angel.raa.modules.middleware.CorsMiddleware;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -17,14 +17,14 @@ public class Main {
 
         Server server = new Server(8080);
 
-        server.use(new CorsMiddleware(allowedOrigins, allowedMethods, allowedHeaders));
+        server.use(new CorsMiddleware());
         server.use(((request, response, chain) -> {
             System.out.println(" Mi Middleware ");
             return chain.next(request, response);
         }));
 
         server.get("/hey", request -> {
-            Response response =new Response(200, new JSONObject().put("message", "Hola Mundo desde JSON"));
+            Response response = new Response(200, new JSONObject().put("message", "Hola Mundo desde JSON"));
 
             response.addHeader("Content-Type", "application/json");
             return response;
@@ -37,13 +37,10 @@ public class Main {
             return response;
         });
 
-        server.get("/json", request -> {
-            Response response = new Response(200, new JSONObject().put("message", "Hola Mundo desde JSON"));
-            response.addHeader("Content-Type", "application/json"); // Especificamos el tipo de contenido
-            return response;
-        });
 
-
+        server.post("/port", request ->  new Response(200, new JSONObject().put("message", "Okey con POST")));
+        server.delete("/delete", request ->  new Response(200, new JSONObject().put("message", "Okey con DELETE")));
+        server.put("/put", request ->  new Response(200, new JSONObject().put("message", "Okey con put")));
 
 
         server.start();

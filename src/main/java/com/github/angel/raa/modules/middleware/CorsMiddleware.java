@@ -1,17 +1,16 @@
-package com.github.alba.middleware;
+package com.github.angel.raa.modules.middleware;
 
-import com.github.alba.core.Request;
-import com.github.alba.core.Response;
+import com.github.angel.raa.modules.core.Request;
+import com.github.angel.raa.modules.core.Response;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class CorsMiddleware implements Middleware {
-    private final List<String> allowedOrigins ;
-    private final List<String> allowedMethods ;
-    private final List<String> allowedHeaders ;
+    private final List<String> allowedOrigins;
+    private final List<String> allowedMethods;
+    private final List<String> allowedHeaders;
 
     public CorsMiddleware() {
         this(

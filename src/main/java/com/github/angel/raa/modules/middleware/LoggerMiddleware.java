@@ -1,7 +1,7 @@
-package com.github.alba.middleware;
+package com.github.angel.raa.modules.middleware;
 
-import com.github.alba.core.Request;
-import com.github.alba.core.Response;
+import com.github.angel.raa.modules.core.Request;
+import com.github.angel.raa.modules.core.Response;
 
 public class LoggerMiddleware implements Middleware {
 

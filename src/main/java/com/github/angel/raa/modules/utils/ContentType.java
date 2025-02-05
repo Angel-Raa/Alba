@@ -1,4 +1,4 @@
-package com.github.alba.utils;
+package com.github.angel.raa.modules.utils;
 
 public enum ContentType {
     JSON("application/json"),

@@ -1,4 +1,4 @@
-package com.github.alba.config;
+package com.github.angel.raa.modules.config;
 
 import java.io.IOException;
 import java.io.InputStream;

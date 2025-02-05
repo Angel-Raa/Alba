@@ -1,4 +1,4 @@
-package com.github.alba.utils;
+package com.github.angel.raa.modules.utils;
 
 import java.util.HashMap;
 import java.util.Map;

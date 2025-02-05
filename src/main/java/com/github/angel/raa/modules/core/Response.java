@@ -1,4 +1,4 @@
-package com.github.alba.core;
+package com.github.angel.raa.modules.core;
 
 import org.json.JSONObject;
 
@@ -32,8 +32,6 @@ public class Response implements Serializable {
         this.body = body;
         this.headers.put("Content-Type", "text/plain");
     }
-
-
 
 
     public void addHeader(String key, String value) {
@@ -72,10 +70,10 @@ public class Response implements Serializable {
 
         // Si el cuerpo es un JSONObject, se agrega como texto JSON
         if (body instanceof JSONObject) {
-            responseBuilder.append(((JSONObject) body).toString());
+            responseBuilder.append(body);
         } else if (body instanceof String) {
             // Si el cuerpo es un String, lo agregamos como texto plano
-            responseBuilder.append(body.toString());
+            responseBuilder.append(body);
         }
 
         return responseBuilder.toString();

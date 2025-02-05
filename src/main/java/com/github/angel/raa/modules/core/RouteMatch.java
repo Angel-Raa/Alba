@@ -1,6 +1,6 @@
-package com.github.alba.core;
+package com.github.angel.raa.modules.core;
 
-import com.github.alba.handler.Handler;
+import com.github.angel.raa.modules.handler.Handler;
 
 import java.util.HashMap;
 import java.util.Map;

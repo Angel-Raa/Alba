@@ -1,4 +1,4 @@
-package com.github.alba.exceptions;
+package com.github.angel.raa.modules.exceptions;
 
 public class HttpException extends RuntimeException {
     private final int statusCode;
