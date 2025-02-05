@@ -25,6 +25,14 @@ public class Main {
             return response;
         });
 
+        server.get("/json", request -> {
+            Response response = new Response(200, new JSONObject().put("message", "Hola Mundo desde JSON"));
+            response.addHeader("Content-Type", "application/json"); // Especificamos el tipo de contenido
+            return response;
+        });
+
+
+
 
         server.start();
     }
