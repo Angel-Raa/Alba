@@ -65,6 +65,14 @@ public class Server {
         router.addRoute("DELETE", path, handler);
     }
 
+    public void patch(String path, Handler handler) {
+        router.addRoute("PATCH", path, handler);
+    }
+    public void options(String path, Handler handler) {
+        router.addRoute("OPTIONS", path, handler);
+    }
+
+
     public void stop() {
         running = false;
         threadPool.shutdown();
