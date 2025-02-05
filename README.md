@@ -1,10 +1,19 @@
+¡Claro! Vamos a actualizar la documentación para incluir todas las nuevas características y middlewares que hemos implementado hasta ahora. Esto incluye los middlewares de **CORS**, **Logger**, **CSRF Protection**, **Timeout**, y la gestión de atributos de sesión.
+
+---
+
 # **Alba Framework**
 
 **Alba** es un framework minimalista diseñado para crear servidores web en Java. Ofrece una API sencilla y flexible para gestionar rutas, middlewares y respuestas HTTP. Este framework está inspirado en herramientas populares como [Hono.js](https://hono.dev/) y [Express.js](https://expressjs.com/), pero con un enfoque ligero y minimalista, ideal para aplicaciones pequeñas o para aprender cómo funcionan los servidores web desde cero.
 
 ## **Características principales**
 
-- **Enrutamiento**: Soporta rutas HTTP como `GET`, `POST`, `PUT` y `DELETE`
+- **Enrutamiento**: Soporta rutas HTTP como `GET`, `POST`, `PUT` y `DELETE`.
+- **Middlewares**: Facilita el uso de middlewares para manipular solicitudes y respuestas.
+- **Respuestas personalizadas**: Construcción de respuestas con cuerpos en JSON, manejo de cabeceras personalizadas y códigos de estado HTTP.
+- **Fácil de usar**: API clara y minimalista para definir rutas y manejar peticiones.
+- **Extensible**: Diseñado para ser ligero y fácil de extender según las necesidades del proyecto.
+
 ---
 
 ## **Uso básico**
@@ -43,8 +52,11 @@ public class App {
 Define rutas para obtener información.
 
 ```java
-server.get("/ruta", request -> {
-    return new Response(200, new JSONObject().put("key", "value"));
+  server.get("/hey", request -> {
+            Response response = new Response(200, new JSONObject().put("message", "Hola Mundo desde JSON"));
+
+            response.addHeader("Content-Type", "application/json");
+            return response;
 });
 ```
 
@@ -52,29 +64,21 @@ server.get("/ruta", request -> {
 Define rutas para recibir datos.
 
 ```java
-server.post("/submit", request -> {
-    JSONObject body = request.getBody();
-    return new Response(200, new JSONObject().put("message", "Datos recibidos"));
-});
+ server.post("/port", request ->  new Response(200, new JSONObject().put("message", "Okey con POST")));
 ```
 
 ### **PUT**
 Define rutas para actualizar datos.
 
 ```java
-server.put("/update", request -> {
-    JSONObject body = request.getBody();
-    return new Response(200, new JSONObject().put("message", "Datos actualizados"));
-});
+ server.put("/put", request ->  new Response(200, new JSONObject().put("message", "Okey con put")));
 ```
 
 ### **DELETE**
 Define rutas para eliminar datos.
 
 ```java
-server.delete("/delete", request -> {
-    return new Response(200, new JSONObject().put("message", "Datos eliminados"));
-});
+server.delete("/delete", request ->  new Response(200, new JSONObject().put("message", "Okey con DELETE")));
 ```
 
 ---
@@ -104,22 +108,23 @@ server.get("/ruta", request -> {
 ```
 
 ---
----
 
-### **Ejemplo de uso**
+### **Middlewares disponibles**
 
-#### Configuración básica
+#### **1. CORS Middleware**
+Permite configurar políticas de Cross-Origin Resource Sharing (CORS).
 
+##### Ejemplo de uso
+
+###### Configuración básica
 ```java
 // Crear middleware CORS con valores predeterminados
 CorsMiddleware corsMiddleware = new CorsMiddleware();
-
 // Agregar middleware global
 server.use(corsMiddleware);
 ```
 
-#### Configuración personalizada
-
+###### Configuración personalizada
 ```java
 // Crear middleware CORS con configuración personalizada
 List<String> allowedOrigins = Arrays.asList("https://example.com", "https://api.example.com");
@@ -127,9 +132,56 @@ List<String> allowedMethods = Arrays.asList("GET", "POST");
 List<String> allowedHeaders = Arrays.asList("Content-Type", "Authorization");
 
 CorsMiddleware corsMiddleware = new CorsMiddleware(allowedOrigins, allowedMethods, allowedHeaders);
-
 // Agregar middleware global
 server.use(corsMiddleware);
+```
+
+---
+
+#### **2. Logger Middleware**
+Registra cada solicitud entrante con un timestamp y detalles adicionales si el nivel de log es `DEBUG`.
+
+##### Ejemplo de uso
+```java
+// Agregar LoggerMiddleware como middleware global
+server.use(new LoggerMiddleware());
+```
+
+---
+
+#### **3. CSRF Protection Middleware**
+Protege tu aplicación contra ataques de Cross-Site Request Forgery (CSRF) generando un token único por sesión.
+
+##### Ejemplo de uso
+```java
+// Agregar CSRF Protection Middleware
+server.use(new CsrfProtectionMiddleware());
+
+// Definir una ruta POST protegida por CSRF
+server.post("/submit", request -> {
+    return new Response(200, new JSONObject().put("message", "Datos recibidos"));
+});
+```
+
+---
+
+#### **4. Timeout Middleware**
+Limita el tiempo máximo que una solicitud puede tardar en procesarse.
+
+##### Ejemplo de uso
+```java
+// Agregar Timeout Middleware con un límite de 5 segundos
+server.use(new TimeoutMiddleware(5000));
+
+// Definir una ruta que simule un procesamiento largo
+server.get("/slow", request -> {
+    try {
+        Thread.sleep(6000); // Simular un retraso de 6 segundos
+    } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+    }
+    return new Response(200, new JSONObject().put("message", "Procesamiento completado"));
+});
 ```
 
 ---
@@ -166,11 +218,9 @@ return response;
 ---
 
 
-
 ## **Licencia**
 
 Este proyecto está bajo la licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
 
 ---
-
 
