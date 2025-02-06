@@ -1,7 +1,3 @@
-¡Claro! Vamos a actualizar la documentación para incluir todas las nuevas características y middlewares que hemos implementado hasta ahora. Esto incluye los middlewares de **CORS**, **Logger**, **CSRF Protection**, **Timeout**, y la gestión de atributos de sesión.
-
----
-
 # **Alba Framework**
 
 **Alba** es un framework minimalista diseñado para crear servidores web en Java. Ofrece una API sencilla y flexible para gestionar rutas, middlewares y respuestas HTTP. Este framework está inspirado en herramientas populares como [Hono.js](https://hono.dev/) y [Express.js](https://expressjs.com/), pero con un enfoque ligero y minimalista, ideal para aplicaciones pequeñas o para aprender cómo funcionan los servidores web desde cero.
