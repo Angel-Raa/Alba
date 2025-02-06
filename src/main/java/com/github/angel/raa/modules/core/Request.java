@@ -17,14 +17,15 @@ public class Request {
     private final Map<String, Object> attributes = new HashMap<>();
     private final Map<String, Object> sessionAttributes = new HashMap<>(); // Nuevo: Atributos de sesión
 
-
-    public Request(String method, String path, Map<String, String> headers, JSONObject bodyString) {
+    // Constructor para inicializar el Request
+    public Request(String method, String path, Map<String, String> headers, JSONObject body) {
         this.method = method;
         this.path = path;
         this.headers = headers;
-        this.body = bodyString.isEmpty() ? new JSONObject() : new JSONObject(bodyString);
+        this.body = body != null ? body : new JSONObject(); // Asegúrate de que el body no sea null
     }
 
+    // Método para construir el Request a partir de un InputStream
     public static Request buildRequest(InputStream inputStream) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String requestLine = reader.readLine();
@@ -67,10 +68,10 @@ public class Request {
         return new Request(method, path, headers, body);
     }
 
+    // Getters para acceder a los valores
     public String getMethod() {
         return method;
     }
-
 
     public String getPath() {
         return path;
@@ -80,28 +81,19 @@ public class Request {
         return headers;
     }
 
-
     public JSONObject getBody() {
         return body;
     }
-
 
     public String getHeader(String key) {
         return headers.get(key);
     }
 
-
-    public JSONObject getBodyAsJson() {
-        return new JSONObject(body);
-    }
-
-
     public void addHeader(String key, String value) {
         headers.put(key, value);
-
     }
 
-   public void setAttribute(String key, Object value) {
+    public void setAttribute(String key, Object value) {
         attributes.put(key, value);
     }
 
@@ -109,12 +101,11 @@ public class Request {
         return attributes.get(key);
     }
 
-    public Throwable getParams() {
-        return (Throwable) attributes.get("params");
-    }
-
-
     public Object getSessionAttribute(String key) {
         return sessionAttributes.get(key);
+    }
+
+    public Throwable getParams() {
+        return (Throwable) attributes.get("params");
     }
 }

@@ -2,25 +2,27 @@ package com.github.angel.raa.modules;
 
 import com.github.angel.raa.modules.core.Response;
 import com.github.angel.raa.modules.core.Server;
-import com.github.angel.raa.modules.middleware.CorsMiddleware;
 
+import com.github.angel.raa.modules.middleware.ValidationMiddleware;
+import com.github.angel.raa.modules.test.User;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        List<String> allowedOrigins = Arrays.asList("https://example.com", "https://api.example.com");
-        List<String> allowedMethods = Arrays.asList("GET", "POST");
-        List<String> allowedHeaders = Arrays.asList("Content-Type", "Authorization");
+
+
 
         Server server = new Server(8080);
-
-        server.use(new CorsMiddleware());
+        server.use((request, response, chain) -> {
+            System.out.println("Entrando al middleware");
+            return chain.next(request, response);
+        });
+       server.use(new ValidationMiddleware<>(User.class));
         server.use(((request, response, chain) -> {
-            System.out.println(" Mi Middleware ");
+            System.out.println(" despues ValidationMiddleware ");
             return chain.next(request, response);
         }));
 
@@ -39,6 +41,16 @@ public class Main {
         });
 
 
+        // Ruta POST para crear un usuario
+        server.post("/user", request -> {
+            // Recuperar el cuerpo de la solicitud
+            JSONObject body = request.getBody();
+
+            // Devolver una respuesta exitosa
+            return new Response(200, new JSONObject()
+                    .put("message", "Usuario creado")
+                    .put("data", body));
+        });
 
         server.post("/port", request ->  new Response(200, new JSONObject().put("message", "Okey con POST")));
         server.delete("/delete", request ->  new Response(200, new JSONObject().put("message", "Okey con DELETE")));
