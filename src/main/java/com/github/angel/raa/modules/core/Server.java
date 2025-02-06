@@ -140,10 +140,10 @@ public class Server {
             Request request = new Request(method, path, headers, !body.isEmpty() ? new JSONObject(body.toString()) : new JSONObject());
 
 
+
            MiddlewareChain chain = new MiddlewareChain(globalMiddlewares.iterator());
             // Ejecutar middlewares globales
             if (!chain.next(request, new Response())) {
-                Response response = new Response(403, new JSONObject().put("error", "Acceso denegado"));
                 out.write(response.build().getBytes());
                 return;
 

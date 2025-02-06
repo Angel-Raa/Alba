@@ -21,10 +21,6 @@ public class Main {
             return chain.next(request, response);
         });
        server.use(new ValidationMiddleware<>(User.class));
-        server.use(((request, response, chain) -> {
-            System.out.println(" despues ValidationMiddleware ");
-            return chain.next(request, response);
-        }));
 
         server.get("/hey", request -> {
             Response response = new Response(200, new JSONObject().put("message", "Hola Mundo desde JSON"));
@@ -45,6 +41,7 @@ public class Main {
         server.post("/user", request -> {
             // Recuperar el cuerpo de la solicitud
             JSONObject body = request.getBody();
+            System.out.println(body);
 
             // Devolver una respuesta exitosa
             return new Response(200, new JSONObject()
