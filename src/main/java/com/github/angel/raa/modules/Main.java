@@ -2,9 +2,9 @@ package com.github.angel.raa.modules;
 
 import com.github.angel.raa.modules.core.Response;
 import com.github.angel.raa.modules.core.Server;
-import com.github.angel.raa.modules.middleware.CorsMiddleware;
 import com.github.angel.raa.modules.middleware.LoggerMiddleware;
 import com.github.angel.raa.modules.middleware.ValidationMiddleware;
+import com.github.angel.raa.modules.test.PostController;
 import com.github.angel.raa.modules.test.User;
 import org.json.JSONObject;
 
@@ -23,14 +23,10 @@ public class Main {
                 Map.of("id", "3", "name", "Angel Aguero", "email", "angel@gmail.com")
         );
         Server server = new Server(8080);
-        CorsMiddleware corsMiddleware = new CorsMiddleware()
-        .setMaxAge(3600);
-
-        server.use(corsMiddleware);
-
         // Middleware global para validar datos
         server.use(new LoggerMiddleware());
 
+        server.addController(new PostController());
         server.get("/users/:id", request -> {
             Long userId = request.getPathParamAsLong("id");
             String name = request.getQueryParam("name");

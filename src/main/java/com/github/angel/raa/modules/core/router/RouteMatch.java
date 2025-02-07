@@ -1,4 +1,4 @@
-package com.github.angel.raa.modules.core;
+package com.github.angel.raa.modules.core.router;
 
 import com.github.angel.raa.modules.handler.Handler;
 

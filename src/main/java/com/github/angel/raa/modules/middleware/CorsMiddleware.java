@@ -47,7 +47,8 @@ public class CorsMiddleware implements Middleware {
     /**
      * Constructor predeterminado: Bloquea todos los orígenes si no se configuran explícitamente.
      */
-    public CorsMiddleware() {}
+    public CorsMiddleware() {
+    }
 
 
     public CorsMiddleware(Set<String> allowedOrigins, Set<String> allowedMethods, List<String> allowedHeaders) {
@@ -86,9 +87,7 @@ public class CorsMiddleware implements Middleware {
      * @return
      */
     public CorsMiddleware addAllowedMethod(String method) {
-        if (!this.allowedMethods.contains(method)) {
-            this.allowedMethods.add(method);
-        }
+        this.allowedMethods.add(method);
         return this;
     }
 

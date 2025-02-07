@@ -26,6 +26,7 @@ import java.util.Set;
  * }</pre>
  * <p>
  * Donde {@code User} es una clase que representa los datos de entrada de una solicitud HTTP.
+ *
  * @param <T>
  */
 public class ValidationMiddleware<T> implements Middleware {

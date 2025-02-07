@@ -1,5 +1,8 @@
 package com.github.angel.raa.modules.core;
 
+import com.github.angel.raa.modules.core.router.Controller;
+import com.github.angel.raa.modules.core.router.RouteMatch;
+import com.github.angel.raa.modules.core.router.Router;
 import com.github.angel.raa.modules.exceptions.HttpException;
 import com.github.angel.raa.modules.handler.Handler;
 import com.github.angel.raa.modules.middleware.Middleware;
@@ -111,6 +114,11 @@ public class Server {
 
     public void delete(String path, Handler handler, Middleware... middlewares) {
         addRouteWithMiddleware("DELETE", path, handler, middlewares);
+    }
+
+    public void addController(Controller controller) {
+        router.addController(controller);
+        globalMiddlewares.addAll(controller.getMiddlewares());
     }
 
     /**

@@ -1,5 +1,6 @@
-package com.github.angel.raa.modules.core;
+package com.github.angel.raa.modules.core.router;
 
+import com.github.angel.raa.modules.exceptions.RouteException;
 import com.github.angel.raa.modules.handler.Handler;
 
 import java.util.HashMap;
@@ -44,7 +45,6 @@ import java.util.Map;
  *     // Procesar la solicitud con el handler correspondiente
  * }
  * }</pre>
- *
  */
 public class Router {
     // Mapa para almacenar las rutas por método HTTP
@@ -99,6 +99,28 @@ public class Router {
         }
 
         return null;
+    }
+
+    /**
+     * Agrega un controlador al enrutador.
+     *
+     * @param controller
+     * @throws RouteException Si hay un error al agregar las rutas del controlador
+     */
+    public void addController(Controller controller) {
+        for (Map.Entry<String, Handler> entry : controller.getRoutes().entrySet()) {
+            String methodAndPath = entry.getKey();
+            Handler handler = entry.getValue();
+            String[] parts = methodAndPath.split(" ", 2);
+            if (parts.length == 2) {
+                String method = parts[0]; // GET, POST, etc.
+                String path = parts[1];  // /post/posts
+                addRoute(method, path, handler);
+            } else {
+                throw new RouteException("Invalid controller route: " + methodAndPath);
+            }
+
+        }
     }
 
     /**
