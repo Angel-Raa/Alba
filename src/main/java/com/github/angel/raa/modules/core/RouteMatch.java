@@ -2,12 +2,11 @@ package com.github.angel.raa.modules.core;
 
 import com.github.angel.raa.modules.handler.Handler;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class RouteMatch {
     private Handler handler;
-    private Map<String, String> params = new HashMap<>();
+    private Map<String, String> params;
 
     public RouteMatch() {
     }
@@ -28,4 +27,9 @@ public class RouteMatch {
     public void setHandler(Handler handler) {
         this.handler = handler;
     }
+
+    public Map<String, String> getParams() {
+        return params;
+    }
+
 }
