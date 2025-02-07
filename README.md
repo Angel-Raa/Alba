@@ -4,132 +4,178 @@
 **Alba** es un framework minimalista diseñado para crear servidores web en Java. Ofrece una API sencilla y flexible para gestionar rutas, middlewares y respuestas HTTP. Este framework está inspirado en herramientas populares como [Hono.js](https://hono.dev/) y [Express.js](https://expressjs.com/), pero con un enfoque ligero y minimalista, ideal para aplicaciones pequeñas o para aprender cómo funcionan los servidores web desde cero.
 
 
-## **Características Principales**
+#### **Nuevas Funcionalidades**
 
-- **Rutas Dinámicas**: Soporte para parámetros dinámicos en las rutas (por ejemplo, `/user/:id`).
-- **Parámetros de Consulta**: Manejo de parámetros de consulta (`query string`) en las solicitudes HTTP.
-- **Validación de Datos**: Middleware integrado para validar datos de entrada usando anotaciones de validación.
-- **Middlewares Globales**: Soporte para middlewares globales y específicos por ruta.
-- **Obtención de IP del Cliente**: Acceso a la dirección IP del cliente para autenticación o registro.
+##### **A. Middleware CORS (`CorsMiddleware`)**
+El middleware CORS permite configurar políticas de acceso entre dominios (Cross-Origin Resource Sharing) para proteger tu aplicación y controlar qué orígenes, métodos y encabezados están permitidos.
 
----
+- **Configuración Básica**:
+  ```java
+  CorsMiddleware corsMiddleware = new CorsMiddleware();
+  corsMiddleware.addAllowedOrigins("https://example.com")
+                .addAllowedMethods("GET", "POST")
+                .setAllowCredentials(true)
+                .setMaxAge(3600);
+  server.use(corsMiddleware);
+  ```
 
-## **Nuevas Funcionalidades**
-
-### **1. Parámetros Dinámicos (`Path Variables`)**
-
-El framework ahora soporta parámetros dinámicos en las rutas. Por ejemplo:
-
-```java
-server.get("/user/:id", request -> {
-    String userId = request.getPathParam("id"); // Obtiene el valor del parámetro ":id"
-    return new Response(200, new JSONObject()
-            .put("message", "Usuario encontrado")
-            .put("userId", userId));
-});
-```
-
-También puedes convertir los parámetros dinámicos a tipos específicos:
-
-```java
-Long userId = request.getPathParamAsLong("id");
-Integer userIdAsInt = request.getPathParamAsInt("id");
-Double userIdAsDouble = request.getPathParamAsDouble("id");
-```
+- **Características**:
+  - Permite todos los orígenes (`"*"`) o solo orígenes específicos.
+  - Restringe los métodos HTTP permitidos.
+  - Soporta credenciales (cookies, autenticación).
+  - Configura el tiempo de caché para solicitudes preflight.
 
 ---
 
-### **2. Parámetros de Consulta (`Query Params`)**
+##### **B. Middleware de Restricción de IPs (`IpRestrictionMiddleware`)**
+Este middleware restringe el acceso a ciertas rutas o al servidor completo basándose en las direcciones IP de los clientes.
 
-El framework ahora soporta parámetros de consulta (`query string`) en las solicitudes HTTP. Por ejemplo:
+- **Configuración Básica**:
+  ```java
+  IpRestrictionMiddleware ipRestrictionMiddleware = new IpRestrictionMiddleware()
+          .addAllowedIps(Arrays.asList("192.168.1.10", "192.168.1.20"))
+          .addBlockedIps(Collections.singletonList("192.168.1.15"))
+          .setAllowAllByDefault(false); // Bloquea todas las IPs por defecto
+  server.use(ipRestrictionMiddleware);
+  ```
+
+- **Características**:
+  - Lista blanca de IPs permitidas.
+  - Lista negra de IPs bloqueadas.
+  - Soporte para rangos CIDR (por ejemplo, `192.168.1.0/24`).
+  - Comportamiento configurable: permitir o bloquear todas las IPs por defecto.
+
+---
+
+##### **C. Middleware de Idioma (`LanguageMiddleware`)**
+Este middleware detecta el idioma preferido del cliente (basado en el encabezado `Accept-Language`) y configura el idioma de la aplicación en función de eso.
+
+- **Configuración Básica**:
+  ```java
+  LanguageMiddleware languageMiddleware = new LanguageMiddleware()
+          .addSupportedLanguages(Set.of("es", "en", "fr"))
+          .setDefaultLanguage("en")
+          .setLanguageHeader("Accept-Language");
+  server.use(languageMiddleware);
+  ```
+
+- **Características**:
+  - Detecta automáticamente el idioma preferido del cliente.
+  - Soporta múltiples idiomas.
+  - Configura un idioma predeterminado si el idioma preferido no está soportado.
+  - Permite personalizar el nombre del encabezado de idioma.
+
+---
+
+##### **D. Tipado Automático del Cuerpo de la Solicitud (`getBodyAs`)**
+La clase `Request` ahora incluye un método `getBodyAs` que permite convertir automáticamente el cuerpo JSON de una solicitud en un objeto Java tipado.
+
+- **Uso**:
+  ```java
+  public Response createUser(Request request) {
+      CreateUserRequest body = request.getBodyAs(CreateUserRequest.class);
+      return new Response(200, new JSONObject().put("message", "Usuario creado"));
+  }
+  ```
+
+- **Características**:
+  - Usa Jackson para deserializar el cuerpo JSON.
+  - Maneja errores automáticamente si el cuerpo no coincide con la estructura esperada.
+  - Compatible con cualquier clase Java.
+
+---
+
+##### **E. Agrupación de Rutas (`route`)**
+Ahora puedes agrupar rutas relacionadas bajo un prefijo común para reducir la repetición de código.
+
+- **Configuración Básica**:
+  ```java
+  server.route("/api/v1/posts", new PostController());
+  ```
+
+- **Características**:
+  - Asocia un controlador completo con un grupo de rutas.
+  - Reduce la cantidad de código necesario para registrar múltiples rutas relacionadas.
+  - Compatible con cualquier controlador que implemente la interfaz `RouteGroup`.
+
+---
+
+#### **3. Ejemplo Completo**
+
+Aquí tienes un ejemplo completo que utiliza todas las nuevas funcionalidades:
 
 ```java
-server.get("/user/:id", request -> {
-    String name = request.getQueryParam("name"); // Obtiene el valor del parámetro "name"
-    Long age = request.getQueryParamAsLong("age"); // Convierte el parámetro "age" a Long
-    return new Response(200, new JSONObject()
-            .put("message", "Usuario encontrado")
-            .put("name", name)
-            .put("age", age));
-});
-```
+import server.Server;
+import middleware.CorsMiddleware;
+import middleware.IpRestrictionMiddleware;
+import middleware.LanguageMiddleware;
 
-Ejemplo de solicitud:
-```
-GET /user/19?name=angel&age=25
-```
+public class Main {
+    public static void main(String[] args) {
+        Server server = new Server(8080);
 
-Respuesta:
-```json
-{
-    "message": "Usuario encontrado",
-    "name": "angel",
-    "age": 25
+        // Middleware CORS
+        CorsMiddleware corsMiddleware = new CorsMiddleware();
+        corsMiddleware.addAllowedOrigins("https://example.com")
+                      .addAllowedMethods("GET", "POST")
+                      .setAllowCredentials(true)
+                      .setMaxAge(3600);
+        server.use(corsMiddleware);
+
+        // Middleware de Restricción de IPs
+        IpRestrictionMiddleware ipRestrictionMiddleware = new IpRestrictionMiddleware()
+                .addAllowedIps(Arrays.asList("192.168.1.10", "192.168.1.20"))
+                .setAllowAllByDefault(false);
+        server.use(ipRestrictionMiddleware);
+
+        // Middleware de Idioma
+        LanguageMiddleware languageMiddleware = new LanguageMiddleware()
+                .addSupportedLanguages(Set.of("es", "en", "fr"))
+                .setDefaultLanguage("en");
+        server.use(languageMiddleware);
+
+        // Rutas agrupadas
+        server.route("/api/v1/posts", new PostController());
+
+        // Ruta simple
+        server.get("/", request -> {
+            String language = (String) request.getAttribute("language");
+            Map<String, String> messages = Map.of(
+                    "es", "Bienvenido",
+                    "en", "Welcome",
+                    "fr", "Bienvenue"
+            );
+            String message = messages.getOrDefault(language, "Welcome");
+            return new Response(200, new JSONObject().put("message", message));
+        });
+
+        // Iniciar el servidor
+        server.start();
+    }
 }
 ```
 
 ---
 
-### **3. Obtención de la IP del Cliente**
+#### **4. Clase `Request`**
 
-Puedes acceder a la dirección IP del cliente desde cualquier controlador:
+La clase `Request` ha sido actualizada para incluir nuevas funcionalidades:
 
-```java
-server.use((request, response, chain) -> {
-    System.out.println("Solicitud recibida desde IP: " + request.getClientIp());
-    return chain.next(request, response);
-});
-```
+- **Método `getBodyAs`**:
+  - Convierte el cuerpo JSON en un objeto Java tipado.
+  - Ejemplo:
+    ```java
+    CreateUserRequest body = request.getBodyAs(CreateUserRequest.class);
+    ```
 
----
+- **Método `getAttribute`**:
+  - Obtiene atributos configurados por middleware (por ejemplo, el idioma seleccionado).
 
-### **4. Validación de Datos**
-
-El middleware `ValidationMiddleware` permite validar el cuerpo de las solicitudes automáticamente. Por ejemplo:
-
-```java
-server.post("/user", request -> {
-    JSONObject body = request.getBody();
-    return new Response(200, new JSONObject()
-            .put("message", "Usuario creado")
-            .put("data", body));
-}, new ValidationMiddleware<>(User.class));
-```
-
-Clase `User` con validaciones:
-
-```java
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Email;
-
-class User {
-    @NotBlank(message = "El nombre es obligatorio")
-    private String name;
-
-    @NotBlank(message = "El email es obligatorio")
-    @Email(message = "El email no es válido")
-    private String email;
-
-    // Getters y setters
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-}
-```
+- **Métodos para Parámetros de Ruta y Consulta**:
+  - `getPathParam`, `getQueryParam`, etc., facilitan el acceso a parámetros dinámicos y de consulta.
 
 ---
+
 
 ## **Cómo Usar el Framework**
 
