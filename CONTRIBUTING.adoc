@@ -1,0 +1,153 @@
+# Contribuir a Alba
+
+¡Bienvenido al proyecto **Alba**! Estamos emocionados de que estés interesado en contribuir. Ya sea que desees corregir errores, agregar nuevas funcionalidades, mejorar la documentación o reportar problemas, tus contribuciones son muy valiosas.
+
+Esta guía explica cómo puedes contribuir de manera efectiva a **Alba**. Por favor, tómate un momento para leerla cuidadosamente antes de enviar tus contribuciones.
+
+## Tabla de Contenidos
+
+1. [Código de Conducta](#código-de-conducta)
+2. [Cómo Contribuir](#cómo-contribuir)
+- [Reportar Problemas](#reportar-problemas)
+- [Sugerir Mejoras](#sugerir-mejoras)
+- [Enviar Pull Requests](#enviar-pull-requests)
+3. [Guías de Desarrollo](#guías-de-desarrollo)
+- [Configurar el Proyecto](#configurar-el-proyecto)
+- [Estándares de Codificación](#estándares-de-codificación)
+- [Pruebas](#pruebas)
+4. [Documentación](#documentación)
+5. [Licencia](#licencia)
+
+---
+
+## Código de Conducta
+
+Nos adherimos a un [Código de Conducta](CODE_OF_CONDUCT.md) para asegurar un entorno acogedor e inclusivo para todos los colaboradores. Por favor, revísalo antes de participar en el proyecto.
+
+---
+
+## Cómo Contribuir
+
+### Reportar Problemas
+
+Si encuentras un error o tienes una pregunta sobre **Alba**, por favor abre un *issue* en la página de [GitHub Issues](https://github.com/Angel-Raa/Alba/issues). Al reportar un problema:
+
+- Proporciona un título claro y descriptivo.
+- Incluye pasos detallados para reproducir el problema.
+- Comparte registros relevantes, mensajes de error o capturas de pantalla si es aplicable.
+- Menciona la versión de **Alba** que estás utilizando.
+
+Ejemplo:
+
+```plaintext
+Título: NullPointerException al acceder a atributos de la solicitud
+
+Descripción:
+Al llamar a `request.getAttribute("key")`, se lanza una NullPointerException si el atributo no está configurado. Esto ocurre en la versión 1.0.0.
+
+Pasos para Reproducir:
+1. Crear un nuevo objeto Request.
+2. Llamar a `request.getAttribute("nonexistentKey")`.
+3. Observar la NullPointerException.
+
+Comportamiento Esperado:
+El método debería devolver `null` en lugar de lanzar una excepción.
+```
+
+---
+
+### Sugerir Mejoras
+
+Si tienes ideas para nuevas funcionalidades o mejoras, no dudes en abrir un *issue* etiquetado como `mejora`. Al sugerir mejoras:
+
+- Describe claramente la funcionalidad o mejora.
+- Explica por qué sería beneficiosa.
+- Proporciona ejemplos o casos de uso si es posible.
+
+---
+
+### Enviar Pull Requests
+
+¡Aceptamos pull requests (PR)! Para enviar un PR:
+
+1. Haz un fork del repositorio y clónalo localmente.
+2. Crea una nueva rama para tus cambios:
+```bash
+git checkout -b feature/tu-nombre-de-funcionalidad
+```
+3. Realiza tus cambios y asegúrate de que sigan las [normas de codificación](#estándares-de-codificación).
+4. Escribe pruebas para tus cambios (si es aplicable).
+5. Confirma tus cambios con un mensaje claro y conciso:
+```bash
+git commit -m "Agregar funcionalidad: descripción de tus cambios"
+```
+6. Sube tu rama a GitHub:
+```bash
+git push origin feature/tu-nombre-de-funcionalidad
+```
+7. Abre un pull request en la página de [GitHub Pull Requests](https://github.com/Angel-Raa/Alba/pulls).
+
+**Nota:** Asegúrate de incluir una descripción de los cambios, el problema que resuelve y cualquier contexto relevante.
+
+
+## Guías de Desarrollo
+
+### Configurar el Proyecto
+
+Para configurar el proyecto localmente:
+
+1. Clona el repositorio:
+```bash
+git clone https://github.com/Angel-Raa/Alba.git
+cd Alba
+```
+2. Construye el proyecto usando Maven:
+```bash
+mvn clean install
+```
+3. Ejecuta el servidor:
+```bash
+java -jar target/alba.jar
+```
+
+---
+
+### Estándares de Codificación
+
+- Sigue las convenciones de código Java descritas en la [Guía de Estilo de Google para Java](https://google.github.io/styleguide/javaguide.html).
+- Usa nombres de variables y métodos significativos.
+- Mantén las clases y métodos pequeños y enfocados en una sola responsabilidad.
+- Evita valores codificados; usa constantes o archivos de configuración en su lugar.
+
+---
+
+### Pruebas
+
+- Escribe pruebas unitarias para todas las nuevas funcionalidades y correcciones de errores.
+- Asegúrate de que las pruebas existentes pasen antes de enviar un PR:
+```bash
+mvn test
+```
+- Apunta a una alta cobertura de pruebas, pero prioriza pruebas significativas sobre una cobertura excesiva.
+
+
+## Documentación
+
+Una buena documentación es crucial para el éxito de **Alba**. Si mejoras o agregas documentación:
+
+- Actualiza el archivo `README.md` para información general.
+- Agrega o actualiza archivos `.adoc` para guías detalladas.
+- Asegúrate de que los ejemplos y fragmentos de código sean precisos y funcionales.
+
+
+## Licencia
+
+Al contribuir a **Alba**, aceptas que tus contribuciones estarán bajo la licencia [MIT License](LICENSE).
+
+---
+
+
+¡Feliz codificación! 🚀
+
+---
+
