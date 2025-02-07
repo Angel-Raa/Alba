@@ -25,7 +25,7 @@ public interface Middleware {
      * @param chain
      * @return boolean
      */
-    boolean handle(Request request, Response response, MiddlewareChain chain);
+    boolean handle(final Request request, final Response response, final MiddlewareChain chain);
 
 
 }
