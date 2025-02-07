@@ -2,6 +2,7 @@ package com.github.angel.raa.modules;
 
 import com.github.angel.raa.modules.core.Response;
 import com.github.angel.raa.modules.core.Server;
+import com.github.angel.raa.modules.middleware.LanguageMiddleware;
 import com.github.angel.raa.modules.middleware.LoggerMiddleware;
 import com.github.angel.raa.modules.middleware.ValidationMiddleware;
 import com.github.angel.raa.modules.test.PostController;
@@ -24,10 +25,14 @@ public class Main {
                 Map.of("id", "3", "name", "Angel Aguero", "email", "angel@gmail.com")
         );
         Server server = new Server(8080);
+        LanguageMiddleware languageMiddleware = new LanguageMiddleware();
+        languageMiddleware.addSupportedLanguages("fr", "en");
+        languageMiddleware.setLanguageHeader("");
         // Middleware global para validar datos
         server.use(new LoggerMiddleware());
+        server.use(languageMiddleware);
 
-        server.addController(new PostController());
+        server.addController(new PostController(), languageMiddleware);
         server.get("/users/:id", request -> {
             Long userId = request.getPathParamAsLong("id");
             String name = request.getQueryParam("name");
@@ -65,7 +70,7 @@ public class Main {
             return new Response(200, new JSONObject()
                     .put("message", "Usuario eliminado")
                     .put("userId", userId));
-        });
+        }, languageMiddleware);
 
 
         server.get("/get", request -> new Response(200, new JSONObject().put("messge", "Hey")));

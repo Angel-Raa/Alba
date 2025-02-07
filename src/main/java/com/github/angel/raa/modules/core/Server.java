@@ -70,6 +70,8 @@ import static java.lang.System.out;
  * // Detener el servidor cuando sea necesario
  * server.stop();
  * }</pre>
+ *
+ * @Author Angel Aguero
  */
 public class Server {
     private static final System.Logger logger = System.getLogger(Server.class.getName());
@@ -121,6 +123,14 @@ public class Server {
         globalMiddlewares.addAll(controller.getMiddlewares());
     }
 
+    /**
+     * Agrega un controlador con middlewares específicos.
+     * @param controller Controlador a agregar
+     * @param middlewares Middlewares a aplicar al controlador
+     * @see Controller
+     * @see Middleware
+     * @see Router
+     */
     public void addController(Controller controller, Middleware...middlewares){
 
         router.addController(controller);
