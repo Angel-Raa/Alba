@@ -9,14 +9,14 @@ import java.util.UUID;
 /***
  * Middleware para proteger contra ataques CSRF
  */
-public class CsrfProtectionMiddleware implements  Middleware{
+public class CsrfProtectionMiddleware implements Middleware {
     private static final String CSRF_TOKEN_HEADER = "X-CSRF-Token";
     private static final String CSRF_TOKEN_SESSION_KEY = "csrfToken";
 
     @Override
     public boolean handle(Request request, Response response, MiddlewareChain chain) {
         String sessionCsrfToken = (String) request.getSessionAttribute(CSRF_TOKEN_SESSION_KEY);
-        if(sessionCsrfToken == null){
+        if (sessionCsrfToken == null) {
             sessionCsrfToken = UUID.randomUUID().toString();
             request.setAttribute(CSRF_TOKEN_SESSION_KEY, sessionCsrfToken);
         }

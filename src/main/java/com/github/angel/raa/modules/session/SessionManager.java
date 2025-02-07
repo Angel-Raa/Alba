@@ -16,7 +16,7 @@ public class SessionManager {
      * Creates a new session and returns the session ID.
      * @return The session ID
      */
-    public  static String createSession() {
+    public static String createSession() {
         String sessionId = UUID.randomUUID().toString();
         Session session = new Session(sessionId);
         sessions.put(sessionId, session);
@@ -53,7 +53,7 @@ public class SessionManager {
         }
     }
 
-    public  static  void removeSession(String sessionId) {
+    public static void removeSession(String sessionId) {
         sessions.remove(sessionId);
     }
 

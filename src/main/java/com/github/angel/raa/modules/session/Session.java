@@ -8,12 +8,12 @@ import java.util.Map;
  * It stores session-specific data and provides methods to manage the session.
  */
 public class Session {
+    private static final long SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
     private final String sessionId;
     private final long creationTime;
-    private long lastAccessTime;
     private final Map<String, Object> attributes = new HashMap<>();
+    private long lastAccessTime;
     private boolean isValid;
-    private static final long SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
 
     public Session(String sessionId) {
         this.sessionId = sessionId;
@@ -30,7 +30,7 @@ public class Session {
         return sessionId;
     }
 
-    public  void updateLastAccessTime() {
+    public void updateLastAccessTime() {
         this.lastAccessTime = System.currentTimeMillis();
     }
 
@@ -56,6 +56,7 @@ public class Session {
     public boolean isValid() {
         return isValid;
     }
+
     /***
      * Sets an attribute in the session.
      * @param name The name of the attribute

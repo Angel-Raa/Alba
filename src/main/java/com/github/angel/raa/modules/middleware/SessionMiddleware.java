@@ -20,7 +20,6 @@ public class SessionMiddleware implements Middleware {
         chain.next(request, response);
 
 
-
         return chain.next(request, response);
     }
 }

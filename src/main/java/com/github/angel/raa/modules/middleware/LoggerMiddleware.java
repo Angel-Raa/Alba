@@ -4,7 +4,7 @@ import com.github.angel.raa.modules.core.Request;
 import com.github.angel.raa.modules.core.Response;
 
 public class LoggerMiddleware implements Middleware {
-    private  final System.Logger logger ;
+    private final System.Logger logger;
     private final System.Logger.Level logLevel;
 
     public LoggerMiddleware(System.Logger logger, System.Logger.Level logLevel) {
@@ -22,7 +22,7 @@ public class LoggerMiddleware implements Middleware {
         long startTime = System.currentTimeMillis();
         logger.log(logLevel, "Inicio de solicitud: {0} {1}", request.getMethod(), request.getPath());
 
-        if(logLevel == System.Logger.Level.DEBUG){
+        if (logLevel == System.Logger.Level.DEBUG) {
             logRequestDetails(request);
         }
         boolean result = chain.next(request, response);
