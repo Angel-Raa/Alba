@@ -2,9 +2,11 @@ package com.github.angel.raa.modules;
 
 import com.github.angel.raa.modules.core.Response;
 import com.github.angel.raa.modules.core.Server;
+import com.github.angel.raa.modules.middleware.CorsMiddleware;
 import com.github.angel.raa.modules.middleware.LoggerMiddleware;
 import com.github.angel.raa.modules.middleware.ValidationMiddleware;
 import com.github.angel.raa.modules.test.User;
+import com.github.angel.raa.modules.utils.AlbaUtils;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -16,7 +18,20 @@ import java.util.Map;
 public class Main {
 
     public static void main(String[] args) throws IOException {
+        List<Map<String, String>> users = Arrays.asList(
+                Map.of("id", "1", "name", "John Doe", "email", "john@example.com"),
+                Map.of("id", "2", "name", "Jane Doe", "email", "jane@example.com"),
+                Map.of("id", "3", "name", "Angel Aguero","email", "angel@gmail.com")
+        );
         Server server = new Server(8080);
+        CorsMiddleware corsMiddleware = new CorsMiddleware();
+        corsMiddleware.addAllowedOrigins("https://localhost:5050");
+        corsMiddleware.addAllowedMethods("GET", "POST", "PUT", "DELETE");
+        corsMiddleware.addAllowedHeaders("Content-Type", "Authorization");
+        corsMiddleware.setAllowCredentials(true);
+        corsMiddleware.setMaxAge(3600);
+
+        server.use(corsMiddleware);
 
         // Middleware global para registrar solicitudes
         server.use((request, response, chain) -> {
@@ -40,14 +55,7 @@ public class Main {
                     .put("name", name));// Ruta GET para listar usuarios
         });
 
-        server.get("/users", request -> {
-            List<Map<String, String>> users = Arrays.asList(
-                    Map.of("id", "1", "name", "John Doe", "email", "john@example.com"),
-                    Map.of("id", "2", "name", "Jane Doe", "email", "jane@example.com")
-            );
-
-            return new Response(200, new JSONObject().put("users", users));
-        });
+        server.get("/users", request ->  new Response(200, new JSONObject().put("users", users)));
         // Ruta GET para listar usuarios
         server.get("/user/:id", request -> {
             String userId = request.getPathParam("id"); // Obtiene el parámetro dinámico ":id"
@@ -61,6 +69,7 @@ public class Main {
         // Ruta POST para crear un usuario
         server.post("/user", request -> {
             JSONObject body = request.getBody();
+
             return new Response(200, new JSONObject()
                     .put("message", "Usuario creado")
                     .put("data", body));
@@ -80,6 +89,10 @@ public class Main {
         server.delete("/delete", request -> new Response(200, new JSONObject().put("message", "Okey con DELETE")));
         server.put("/put", request -> new Response(200, new JSONObject().put("message", "Okey con put")));
 
+        String emailValid= "angelaguero@gmail.com";
+        String emailNotValid = "angelgamic.com";
+        System.out.println("Email valido " + AlbaUtils.isValidEmail(emailValid));
+        System.out.println("Email no valido " + AlbaUtils.isValidEmail(emailNotValid));
 
         server.start();
     }
