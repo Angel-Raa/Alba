@@ -1,18 +1,27 @@
 package com.github.angel.raa.modules.test;
 
-public class Post {
 
-    private int postId;
+import java.io.Serial;
+import java.io.Serializable;
+
+public class PostEntity implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -7034261873L;
+
+    private Integer postId;
     private String title;
     private String body;
 
-    public Post(int postId, String title, String body) {
+    public PostEntity() {
+    }
+
+    public PostEntity(Integer postId, String title, String body) {
         this.postId = postId;
         this.title = title;
         this.body = body;
     }
 
-    public int getPostId() {
+    public Integer getPostId() {
         return postId;
     }
 

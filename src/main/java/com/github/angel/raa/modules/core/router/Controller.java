@@ -7,7 +7,9 @@ import com.github.angel.raa.modules.annotations.Put;
 import com.github.angel.raa.modules.core.Response;
 import com.github.angel.raa.modules.handler.Handler;
 import com.github.angel.raa.modules.middleware.Middleware;
+import org.json.JSONObject;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -96,14 +98,32 @@ public class Controller {
         }
     }
 
+    /**
+     * Crea un manejador para un método del controlador.
+     *
+     * @param method Método del controlador
+     * @return Manejador creado
+     */
     private Handler createHandler(Method method) {
         return request -> {
             try {
                 return (Response) method.invoke(this, request);
-            } catch (Exception e) {
-                return new Response(500, "Error al invocar el método del controlador");
+            }
+            catch (InvocationTargetException e){
+                Throwable cause = e.getCause();
+                if(cause instanceof  IllegalArgumentException){
+                    return new Response(400, cause.getMessage()); // Bad Request
+                }
+                else {
+                    return new Response(500, "Error interno del servidor: " + cause.getMessage());
+
+                }
+            }
+            catch (Exception e) {
+                return new Response(500, new JSONObject().put("Error", "Error al invocar el método del controlador"));
             }
         };
     }
+
 
 }

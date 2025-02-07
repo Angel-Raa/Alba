@@ -1,5 +1,8 @@
 package com.github.angel.raa.modules.core;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -27,6 +30,8 @@ public class Request {
     private final Map<String, Object> attributes = new HashMap<>();
     private final Map<String, Object> sessionAttributes = new HashMap<>(); // Nuevo: Atributos de sesión
     private Map<String, String> params; // Parámetros dinámicos
+    private static final ObjectMapper objectMapper = new ObjectMapper()
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);;
 
 
     public Request(Socket clientSocket, String method, String path, Map<String, String> headers, JSONObject body) {
@@ -351,4 +356,74 @@ public class Request {
     public Object getSessionAttribute(String key) throws NullPointerException {
         return sessionAttributes.get(key);
     }
-}
+
+    /**
+     * Obtiene un valor del cuerpo como String.
+     * @param key
+     * @return
+     */
+    public String getBodyString(String key){
+        return body.has(key) ? body.getString(key) : null;
+    }
+    /**
+     * Obtiene un valor del cuerpo como Long.
+     * @param key
+     * @return
+     */
+    public Long getBodyLong(String key){
+        return body.has(key) ? body.getLong(key) : null;
+    }
+    /**
+     * Obtiene un valor del cuerpo como Integer.
+     * @param key
+     * @return
+     */
+    public Integer getBodyInt(String key){
+        return body.has(key) ? body.getInt(key) : null;
+    }
+    /**
+     * Obtiene un valor del cuerpo como Double.
+     * @param key
+     * @return
+     */
+    public Double getBodyDouble(String key){
+        return body.has(key) ? body.getDouble(key) : null;
+    }
+
+    /**
+     * Obtiene el cuerpo como un mapa de objetos.
+     * @return Mapa de objetos con los valores del cuerpo.
+     */
+    public Map<String, Object> getBodyAsMap() {
+        return body.toMap();
+    }
+
+    public <T> T getBodyAs(Class<T> clazz) throws IllegalArgumentException{
+        if (body == null || body.isEmpty()) {
+            throw new IllegalArgumentException("El cuerpo de la solicitud está vacío");
+        }
+        try {
+            return objectMapper.readValue(body.toString(), clazz);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error al convertir el cuerpo a la clase especificada", e);
+        }
+    }
+
+    /**
+     * Obtiene el cuerpo como un objeto de la clase especificada.
+     * @param typeReference
+     * @return
+     * @param <T>
+     * @throws IllegalArgumentException
+     */
+    public <T> T getBodyAs(TypeReference<T> typeReference) throws IllegalArgumentException{
+        if (body == null || body.isEmpty()) {
+            throw new IllegalArgumentException("El cuerpo de la solicitud está vacío");
+        }
+        try {
+            return objectMapper.readValue(body.toString(), typeReference);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error al convertir el cuerpo a la clase especificada", e);
+        }
+    }
+ }

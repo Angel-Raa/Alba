@@ -121,6 +121,12 @@ public class Server {
         globalMiddlewares.addAll(controller.getMiddlewares());
     }
 
+    public void addController(Controller controller, Middleware...middlewares){
+
+        router.addController(controller);
+        globalMiddlewares.addAll(Arrays.asList(middlewares));
+    }
+
     /**
      * Método auxiliar para agregar una ruta con middlewares específicos.
      */

@@ -5,6 +5,7 @@ import com.github.angel.raa.modules.core.Server;
 import com.github.angel.raa.modules.middleware.LoggerMiddleware;
 import com.github.angel.raa.modules.middleware.ValidationMiddleware;
 import com.github.angel.raa.modules.test.PostController;
+import com.github.angel.raa.modules.test.PostEntity;
 import com.github.angel.raa.modules.test.User;
 import org.json.JSONObject;
 
