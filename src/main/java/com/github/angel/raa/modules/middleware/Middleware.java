@@ -11,6 +11,22 @@ import com.github.angel.raa.modules.core.Response;
  * The handle method should return a boolean indicating whether the request should be further processed or not.
  * If the handle method returns false, the request processing will stop and the response will be sent back to the client.
  * If the handle method returns true, the request processing will continue with the next middleware in the chain.
+ *
+ *
+ * <p>
+ *     Example:
+ *     <pre>
+ *     {@code
+ *     public class LoggingMiddleware implements Middleware {
+ *         @Override
+ *         public boolean handle(Request request, Response response, MiddlewareChain chain) {
+ *             System.out.println("Logging: " + request.getMethod() + " " + request.getPath());
+ *             return chain.next(request, response);
+ *         }
+ *     }
+ *     }
+ *     </pre>
+ * </p>
  */
 @FunctionalInterface
 public interface Middleware {
