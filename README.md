@@ -7,7 +7,7 @@
 #### **Nuevas Funcionalidades**
 
 ##### **A. Middleware CORS (`CorsMiddleware`)**
-El middleware CORS permite configurar políticas de acceso entre dominios (Cross-Origin Resource Sharing) para proteger tu aplicación y controlar qué orígenes, métodos y encabezados están permitidos.
+El middleware CORS permite configurar políticas de acceso entre dominios (Cross-Origin Resource Sharing).
 
 - **Configuración Básica**:
   ```java
