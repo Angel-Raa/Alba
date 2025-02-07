@@ -6,8 +6,18 @@ import org.json.JSONObject;
 
 import java.util.UUID;
 
-/***
- * Middleware para proteger contra ataques CSRF
+/**
+ * Middleware para protección CSRF.
+ * Este middleware genera un token CSRF y lo agrega a la respuesta.
+ * También valida el token en solicitudes no seguras (POST, PUT, DELETE).
+ * <p>
+ * Nota: Este middleware requiere que se utilice un sistema de sesiones para almacenar el token CSRF.
+ * <p>
+ * Ejemplo de uso:
+ * <pre>{@code
+ * server.post("/user", request -> new Response(200, new JSONObject().put("message", "Okey con POST")),
+ *         new CsrfProtectionMiddleware());
+ * }</pre>
  */
 public class CsrfProtectionMiddleware implements Middleware {
     private static final String CSRF_TOKEN_HEADER = "X-CSRF-Token";

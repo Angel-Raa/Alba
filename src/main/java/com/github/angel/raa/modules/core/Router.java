@@ -6,9 +6,45 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Clase Router: Encargada de manejar las rutas y los manejadores asociados.
- * Utiliza un mapa para almacenar las rutas y sus correspondientes manejadores.
- * Además, proporciona métodos para agregar rutas y obtener manejadores basados en las rutas solicitadas.
+ * Clase `Router`: Maneja las rutas y sus correspondientes manejadores en la aplicación.
+ *
+ * <p>Esta clase permite registrar rutas por método HTTP, buscar rutas eficientes y extraer
+ * parámetros dinámicos en las solicitudes. Utiliza una estructura de datos optimizada para
+ * realizar búsquedas rápidas y asignar los manejadores de forma eficiente.</p>
+ *
+ * <h2>Características:</h2>
+ * <ul>
+ *     <li>Almacena rutas en un mapa estructurado por método HTTP.</li>
+ *     <li>Permite definir rutas con parámetros dinámicos (ej. `/users/:id`).</li>
+ *     <li>Ofrece una búsqueda eficiente de rutas mediante `getRouteMatch`.</li>
+ *     <li>Facilita la extracción automática de parámetros dinámicos con `extractParams`.</li>
+ * </ul>
+ *
+ * <h2>Métodos Principales:</h2>
+ * <ul>
+ *     <li><b>addRoute(String method, String path, Handler handler)</b>: Agrega una nueva ruta al enrutador.</li>
+ *     <li><b>getRouteMatch(String method, String path)</b>: Obtiene el manejador correspondiente a una ruta específica.</li>
+ *     <li><b>extractParams(String route, String path)</b>: Extrae los parámetros dinámicos de una ruta.</li>
+ * </ul>
+ *
+ * <h2>Ejemplo de Uso:</h2>
+ * <pre>{@code
+ * // Crear instancia del enrutador
+ * Router router = new Router();
+ *
+ * // Agregar una ruta con parámetro dinámico
+ * router.addRoute("GET", "/users/:id", request -> {
+ *     // Manejar la solicitud con el ID del usuario
+ * });
+ *
+ * // Buscar una ruta coincidente con un valor dinámico
+ * RouteMatch match = router.getRouteMatch("GET", "/users/123");
+ * if (match != null) {
+ *     Handler handler = match.getHandler();
+ *     // Procesar la solicitud con el handler correspondiente
+ * }
+ * }</pre>
+ *
  */
 public class Router {
     // Mapa para almacenar las rutas por método HTTP

@@ -21,6 +21,53 @@ import java.util.stream.Stream;
 
 import static java.lang.System.out;
 
+/**
+ * Clase principal del servidor HTTP de Alba.
+ *
+ * <p>Proporciona un servidor ligero y eficiente para manejar solicitudes HTTP.
+ * Permite definir rutas, middlewares y manejar múltiples solicitudes concurrentes
+ * mediante un pool de hilos.</p>
+ *
+ * <h2>Características:</h2>
+ * <ul>
+ *     <li>Soporte para rutas estáticas y dinámicas con parámetros.</li>
+ *     <li>Manejo de métodos HTTP específicos (GET, POST, PUT, DELETE, etc.).</li>
+ *     <li>Registro de eventos y errores mediante un sistema de logging integrado.</li>
+ *     <li>Configuración flexible de host y puerto.</li>
+ *     <li>Compatibilidad con middlewares globales y específicos por ruta.</li>
+ *     <li>Gestión eficiente de concurrencia mediante un pool de hilos.</li>
+ *     <li>Facilidad para iniciar y detener el servidor de manera controlada.</li>
+ * </ul>
+ *
+ * <h2>Ejemplo de Uso:</h2>
+ * <pre>{@code
+ * // Crear una instancia del servidor en el puerto 8080
+ * Server server = new Server(8080);
+ *
+ * // Definir rutas para distintos métodos HTTP
+ * server.get("/get", request ->
+ *     new Response(200, new JSONObject().put("message", "Hey"))
+ * );
+ *
+ * server.post("/post", request ->
+ *     new Response(200, new JSONObject().put("message", "Hey"))
+ * );
+ *
+ * server.delete("/delete", request ->
+ *     new Response(200, new JSONObject().put("message", "Hey"))
+ * );
+ *
+ * server.put("/put", request ->
+ *     new Response(200, new JSONObject().put("message", "Hey"))
+ * );
+ *
+ * // Iniciar el servidor
+ * server.start();
+ *
+ * // Detener el servidor cuando sea necesario
+ * server.stop();
+ * }</pre>
+ */
 public class Server {
     private static final System.Logger logger = System.getLogger(Server.class.getName());
     private final int port;

@@ -4,34 +4,57 @@ import com.github.angel.raa.modules.core.Request;
 import com.github.angel.raa.modules.core.Response;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
+/**
+ * Middleware para manejar CORS (Cross-Origin Resource Sharing).
+ * Permite configurar los orígenes permitidos, métodos HTTP permitidos y encabezados permitidos.
+ * También permite configurar si se permiten credenciales y el tiempo máximo de caché.
+ * Además, permite bloquear todos los orígenes si no se configuran explícitamente.
+ * <p>
+ * Ejemplo de uso:
+ * <pre>{@code
+ * CorsMiddleware corsMiddleware = CorsMiddleware.allowAll()
+ *         .addAllowedOrigin("http://example.com")
+ *         .addAllowedMethod("GET")
+ *         .addAllowedHeader("Content-Type")
+ *         .allowCredentials(true)
+ *         .setMaxAge(3600);
+ * }</pre>
+ * <p>
+ * Luego, puedes usar este middleware en tu servidor:
+ * <pre>{@code
+ * server.use(corsMiddleware);
+ * }</pre>
+ * <p>
+ * Si no se configura CORS, se bloquearán todos los orígenes.
+ * <pre>{@code
+ * CorsMiddleware corsMiddleware = new CorsMiddleware();
+ * }</pre>
+ * <p>
+ * Si se configura CORS, se permitirán los orígenes especificados.
+ * <pre>{@code
+ * CorsMiddleware corsMiddleware = CorsMiddleware.allowAll();
+ * }</pre>
+ */
 public class CorsMiddleware implements Middleware {
-    private List<String> allowedOrigins = new ArrayList<>();
-    private List<String> allowedMethods = Arrays.asList("GET", "POST", "PUT", "DELETE");
-    private List<String> allowedHeaders = Arrays.asList("Content-Type", "Authorization");
+    private final Set<String> allowedOrigins = new HashSet<>();
+    private final Set<String> allowedMethods = new HashSet<>(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+    private final List<String> allowedHeaders = new ArrayList<>(List.of("Content-Type"));
     private boolean allowCredentials = false;
     private int maxAge = 600;
 
     /**
      * Constructor predeterminado: Bloquea todos los orígenes si no se configuran explícitamente.
      */
-    public CorsMiddleware() {
-    }
+    public CorsMiddleware() {}
 
-    /**
-     * Constructor para configurar CORS.
-     *
-     * @param allowedOrigins Lista de orígenes permitidos (puede ser "*").
-     * @param allowedMethods Lista de métodos HTTP permitidos.
-     * @param allowedHeaders Lista de encabezados permitidos.
-     */
-    public CorsMiddleware(List<String> allowedOrigins, List<String> allowedMethods, List<String> allowedHeaders) {
-        this.allowedOrigins = allowedOrigins;
-        this.allowedMethods = allowedMethods;
-        this.allowedHeaders = allowedHeaders;
+
+    public CorsMiddleware(Set<String> allowedOrigins, Set<String> allowedMethods, List<String> allowedHeaders) {
+        this.allowedOrigins.addAll(allowedOrigins);
+        this.allowedMethods.addAll(allowedMethods);
+        this.allowedHeaders.addAll(allowedHeaders);
+
     }
 
     /**
@@ -52,9 +75,7 @@ public class CorsMiddleware implements Middleware {
      * @return
      */
     public CorsMiddleware addAllowedOrigin(String origin) {
-        if (!this.allowedOrigins.contains(origin)) {
-            this.allowedOrigins.add(origin);
-        }
+        this.allowedOrigins.add(origin);
         return this;
     }
 
@@ -104,6 +125,7 @@ public class CorsMiddleware implements Middleware {
         allowedOrigins.addAll(Arrays.stream(origins).filter(o -> !allowedOrigins.contains(o)).toList());
         return this;
     }
+
     /**
      * Agrega una lista de métodos HTTP permitidos al middleware.
      *
@@ -186,8 +208,10 @@ public class CorsMiddleware implements Middleware {
     }
 
     @Override
-    public boolean handle(Request request, Response response, MiddlewareChain chain) {
+    public boolean handle(final Request request, final Response response, final MiddlewareChain chain) {
         String origin = request.getHeader("Origin");
+
+        if (origin == null) return chain.next(request, response);
 
         // Validar origen permitido
         if (!isOriginAllowed(origin)) {
@@ -196,12 +220,17 @@ public class CorsMiddleware implements Middleware {
             return false;
 
         }
-        if (isOriginAllowed(origin)) {
-            response.addHeader("Access-Control-Allow-Origin", origin);
-        } else {
-            response.setStatus(403); // Forbidden
-            response.setBody(new JSONObject().put("error", "Origen no permitido"));
-            return false; // Detener la cadena
+
+        // Agregar encabezados CORS
+        if (allowedOrigins.contains("*")) {
+            response.addHeader("Access-Control-Allow-Origin", allowedOrigins.contains("*") ? "*" : origin);
+        }
+        // Validar método HTTP permitido
+        String method = request.getMethod();
+        if (!allowedMethods.contains(method.toUpperCase())) {
+            response.setStatus(405); // Method Not Allowed
+            response.setBody(new JSONObject().put("error", "Método no permitido"));
+            return false;
         }
 
         // Agregar métodos y encabezados permitidos
@@ -212,8 +241,8 @@ public class CorsMiddleware implements Middleware {
         if (allowCredentials) {
             response.addHeader("Access-Control-Allow-Credentials", "true");
         }
+        // Configurar tiempo de caché para preflight
         response.addHeader("Access-Control-Max-Age", String.valueOf(maxAge));
-        response.addHeader("Vary", "Origin");
 
         // Manejar preflight requests
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
@@ -230,15 +259,9 @@ public class CorsMiddleware implements Middleware {
      * Verifica si el origen está permitido.
      *
      * @param origin
-     * @return
+     * @return true si el origen está permitido, false en caso contrario
      */
     private boolean isOriginAllowed(String origin) {
-        if (origin == null) {
-            return false;
-        }
-        if (allowedOrigins.isEmpty()) {
-            return false;
-        }
         return allowedOrigins.contains("*") || allowedOrigins.contains(origin);
     }
 
