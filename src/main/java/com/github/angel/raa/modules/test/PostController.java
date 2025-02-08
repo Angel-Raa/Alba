@@ -59,7 +59,8 @@ public class PostController extends Controller {
     public Response create(Request request){
         var body = request.getBodyAs(PostEntity.class);
         System.out.println(body.getTitle());
-        return new Response(200, new JSONObject().put("Message", "Data").put("titulos", body.getTitle()));
+        JSONObject  resp = request.getBodyAs(JSONObject.class);
+        return Response.Created(resp);
     }
 
 }

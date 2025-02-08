@@ -40,7 +40,7 @@ public class LanguageMiddleware implements Middleware{
     private String defaultLanguage = "en";
     private String languageHeader = "Accept-Language";
 
-
+    // TODO: SOLUCIONA ESTE PROBLEMA -> LanguageMiddleware languageMiddleware = new LanguageMiddleware();  Cannot invoke "String.replace(java.lang.CharSequence, java.lang.CharSequence)" because "ranges" is null
     public LanguageMiddleware() {
 
     }
