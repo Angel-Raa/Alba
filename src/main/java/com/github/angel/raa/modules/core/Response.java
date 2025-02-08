@@ -31,13 +31,13 @@ import java.util.Map;
  *         }
  * </p>
  */
-public class Response<T> implements Serializable {
+public class Response implements Serializable {
     @Serial
     private static final long serialVersionUID = -318743879132789673L;
     private final Map<String, String> headers = new HashMap<>();
     private final Map<String, String> cookies = new HashMap<>();
     private int status = 200;
-    private T body;
+    private Object body;
     private String charset = "UTF-8";
 
     public Response() {
@@ -50,7 +50,7 @@ public class Response<T> implements Serializable {
      * @param status
      * @param body
      */
-    public Response(int status, T body) {
+    public Response(int status, JSONObject body) {
         this.status = status;
         this.body = body;
         headers.put("Content-Type", "application/json; charset=" + charset);
@@ -61,7 +61,7 @@ public class Response<T> implements Serializable {
      * @param status
      * @param body
      */
-    public Response(int status, T body) {
+    public Response(int status, String body) {
         this.status = status;
         this.body = body;
         headers.put("Content-Type", "text/plain; charset=" + charset);

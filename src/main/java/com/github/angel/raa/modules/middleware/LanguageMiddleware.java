@@ -39,8 +39,6 @@ public class LanguageMiddleware implements Middleware{
     private final Set<String> supportedLanguages = new HashSet<>();
     private String defaultLanguage = "en";
     private String languageHeader = "Accept-Language";
-
-    // TODO: SOLUCIONA ESTE PROBLEMA -> LanguageMiddleware languageMiddleware = new LanguageMiddleware();  Cannot invoke "String.replace(java.lang.CharSequence, java.lang.CharSequence)" because "ranges" is null
     public LanguageMiddleware() {
 
     }
@@ -54,7 +52,7 @@ public class LanguageMiddleware implements Middleware{
      * @see AlbaUtils#isNotBlank(String)
      */
     public LanguageMiddleware addSupportedLanguage(String language) {
-        if (AlbaUtils.isNotBlank(language)) {
+        if (!AlbaUtils.isNotBlank(language)) {
             throw new IllegalArgumentException("Language cannot be null or empty");
         }
         supportedLanguages.add(language);
@@ -102,7 +100,7 @@ public class LanguageMiddleware implements Middleware{
      * @see AlbaUtils#isNotBlank(String)
      */
     public LanguageMiddleware setLanguageHeader(String languageHeader) {
-        if (AlbaUtils.isNotBlank(languageHeader)) {
+        if (!AlbaUtils.isNotBlank(languageHeader)) {
             throw new IllegalArgumentException("Language header cannot be null or empty");
         }
         this.languageHeader = languageHeader;
@@ -119,7 +117,7 @@ public class LanguageMiddleware implements Middleware{
      * @see AlbaUtils#isNotBlank(String)
      */
     public LanguageMiddleware setDefaultLanguage(String defaultLanguage) {
-        if (AlbaUtils.isNotBlank(defaultLanguage)) {
+        if (!AlbaUtils.isNotBlank(defaultLanguage)) {
             throw new IllegalArgumentException("Default language cannot be null or empty");
         }
         this.defaultLanguage = defaultLanguage;
@@ -142,7 +140,7 @@ public class LanguageMiddleware implements Middleware{
      * @return Código del idioma preferido.
      */
     private  String determinePreferredLanguage(String acceptLanguageHeader){
-        if(AlbaUtils.isNotBlank(acceptLanguageHeader)) return defaultLanguage;
+        if(!AlbaUtils.isNotBlank(acceptLanguageHeader)) return defaultLanguage;
         // Dividir el encabezado en idiomas y sus calificaciones (q-values)
         List<Locale.LanguageRange> languageRanges = Locale.LanguageRange.parse(acceptLanguageHeader);
 
