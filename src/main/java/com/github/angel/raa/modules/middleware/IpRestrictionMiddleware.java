@@ -3,6 +3,7 @@ package com.github.angel.raa.modules.middleware;
 import com.github.angel.raa.modules.core.Request;
 import com.github.angel.raa.modules.core.Response;
 import org.apache.commons.net.util.SubnetUtils;
+import org.json.JSONObject;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -109,7 +110,16 @@ public class IpRestrictionMiddleware implements Middleware {
 
     @Override
     public boolean handle(Request request, Response response, MiddlewareChain chain) {
-        return false;
+        String clientIp = request.getClientIp();
+        if (!isIpAllowed(clientIp)) {
+            response.setStatus(403);
+
+            response.setBody(new JSONObject().put("error", "Acceso denegado: IP no permitida"));
+            response.addHeader("Content-Type", "application/json");
+
+            return false;
+        }
+        return chain.next(request, response);
     }
 
 
