@@ -155,4 +155,14 @@ public class AlbaUtils {
         }
         return password.toString();
     }
+
+    /**
+     * Verifica si una cadena contiene un patrón de ruta dinámica.
+     * @param path
+     * @return
+     */
+    public static boolean isPathPattern(String path) {
+        return path.contains("*");
+
+    }
 }

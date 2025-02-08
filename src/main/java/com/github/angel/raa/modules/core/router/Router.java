@@ -2,8 +2,11 @@ package com.github.angel.raa.modules.core.router;
 
 import com.github.angel.raa.modules.exceptions.RouteException;
 import com.github.angel.raa.modules.handler.Handler;
+import com.github.angel.raa.modules.middleware.Middleware;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -49,6 +52,7 @@ import java.util.Map;
 public class Router {
     // Mapa para almacenar las rutas por método HTTP
     private final Map<String, Map<String, Handler>> routes = new HashMap<>();
+    private final Map<String, List<Middleware>> routeMiddlewares = new HashMap<>();
 
     /**
      * Extrae la ruta sin parámetros de consulta.
@@ -67,10 +71,15 @@ public class Router {
      *
      * @param method  Método HTTP (GET, POST, PUT, DELETE, etc.)
      * @param path    Ruta (puede incluir parámetros dinámicos, ej.: /users/:id)
+     * @param middlewares Lista de middlewares asociados a la ruta
      * @param handler Manejador asociado a la ruta
+     *
      */
-    public void addRoute(String method, String path, Handler handler) {
+    public void addRoute(String method, String path, Handler handler, Middleware...middlewares) {
         routes.computeIfAbsent(method.toUpperCase(), k -> new HashMap<>()).put(path, handler);
+        if (middlewares.length > 0) {
+            routeMiddlewares.put(method.toUpperCase() + " " + path, Arrays.asList(middlewares));
+        }
     }
 
     /**
@@ -94,7 +103,8 @@ public class Router {
 
             Map<String, String> params = extractParams(routePath, path);
             if (params != null) {
-                return new RouteMatch(params, handler);
+                List<Middleware> middlewares = routeMiddlewares.get(method.toUpperCase() + " " + routePath);
+                return new RouteMatch(params, handler, middlewares);
             }
         }
 
@@ -107,7 +117,7 @@ public class Router {
      * @param controller
      * @throws RouteException Si hay un error al agregar las rutas del controlador
      */
-    public void addController(Controller controller) {
+    public void addController(Controller controller, Middleware... middlewares) {
         for (Map.Entry<String, Handler> entry : controller.getRoutes().entrySet()) {
             String methodAndPath = entry.getKey();
             Handler handler = entry.getValue();
@@ -115,7 +125,7 @@ public class Router {
             if (parts.length == 2) {
                 String method = parts[0]; // GET, POST, etc.
                 String path = parts[1];  // /post/posts
-                addRoute(method, path, handler);
+                addRoute(method, path, handler, middlewares);
             } else {
                 throw new RouteException("Invalid controller route: " + methodAndPath);
             }

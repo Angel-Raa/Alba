@@ -16,9 +16,31 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Clase que representa una solicitud HTTP.
- * Contiene información sobre el método HTTP, encabezados, cuerpo y parámetros.
- * Además, proporciona métodos para acceder a estos datos.
+ * Clase Request que representa una solicitud HTTP entrante.
+ * Contiene información sobre el cliente, el método, la ruta, los encabezados y el cuerpo de la solicitud.
+ * También proporciona métodos para acceder a los datos de la solicitud.
+ * Además, se encarga de parsear el cuerpo de la solicitud si está presente y en formato JSON.
+ * También se encarga de parsear los parámetros de la ruta y los parámetros de consulta.
+ *
+ * <p>
+ *     Ejemplos de uso:
+ *     <pre>{@code
+ *         Request request = new Request(clientSocket, method, path, headers, body);
+ *         String clientIp = request.getClientIp();
+ *         String method = request.getMethod();
+ *         String path = request.getPath();
+ *         Map<String, String> headers = request.getHeaders();
+ *         JSONObject body = request.getBody();
+ *         }
+ *      </pre>
+ *      <pre>{@code
+ *         String userId = request.getParams().get("id");
+ *         String name = request.getBody().getString("name");
+ *         }
+ *      </pre>
+ * </p>
+ *
+ * @Author Angel Aguero
  */
 public class Request {
     private final String clientIp;

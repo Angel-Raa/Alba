@@ -4,6 +4,7 @@ import com.github.angel.raa.modules.core.router.Controller;
 import com.github.angel.raa.modules.core.router.RouteMatch;
 import com.github.angel.raa.modules.core.router.Router;
 import com.github.angel.raa.modules.exceptions.HttpException;
+import com.github.angel.raa.modules.exceptions.RouteException;
 import com.github.angel.raa.modules.handler.Handler;
 import com.github.angel.raa.modules.middleware.Middleware;
 import com.github.angel.raa.modules.middleware.MiddlewareChain;
@@ -119,8 +120,19 @@ public class Server {
     }
 
     public void addController(Controller controller) {
-        router.addController(controller);
-        globalMiddlewares.addAll(controller.getMiddlewares());
+       for (Map.Entry<String, Handler> entry : controller.getRoutes().entrySet()){
+           String methodAndPath = entry.getKey();
+           Handler handler = entry.getValue();
+           String[] parts = methodAndPath.split(" ", 2);
+           if (parts.length == 2) {
+               String method = parts[0]; // GET, POST, etc.
+               String path = parts[1];  // /post/posts
+               addRouteWithMiddleware(method, path, handler, controller.getMiddlewares().toArray(new Middleware[0]));
+           } else {
+               throw new RouteException("Invalid controller route: " + methodAndPath);
+           }
+       }
+
     }
 
     /**
@@ -133,8 +145,21 @@ public class Server {
      */
     public void addController(Controller controller, Middleware...middlewares){
 
-        router.addController(controller);
-        globalMiddlewares.addAll(Arrays.asList(middlewares));
+        for (Map.Entry<String, Handler> entry : controller.getRoutes().entrySet()) {
+            String methodAndPath = entry.getKey();
+            Handler handler = entry.getValue();
+
+            // Extraer el método y la ruta
+            String[] parts = methodAndPath.split(" ", 2);
+            if (parts.length == 2) {
+                String method = parts[0];
+                String path = parts[1];
+
+                // Registrar la ruta con los middlewares específicos
+                router.addRoute(method, path, handler, middlewares);
+            }
+        }
+
     }
 
     /**
@@ -191,8 +216,13 @@ public class Server {
         }
     }
 
+
     /**
      * Maneja una solicitud HTTP entrante.
+     * @see Request
+     * @see Response
+     * @param clientSocket
+     * @throws IOException
      */
     private void handleRequest(Socket clientSocket) throws IOException {
         try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -243,13 +273,21 @@ public class Server {
                 request.setParams(routeMatch.getParams()); // Almacenar parámetros dinámicos
                 Handler handler = routeMatch.getHandler();
 
-                // Crear la cadena de middlewares
-                MiddlewareChain chain = new MiddlewareChain(globalMiddlewares.iterator());
-
                 // Ejecutar middlewares globales
-                if (!chain.next(request, response)) {
-                    sendResponse(out, response); // Respuesta generada por un middleware
+                MiddlewareChain globalChain = new MiddlewareChain(globalMiddlewares.iterator());
+                if (!globalChain.next(request, response)) {
+                    sendResponse(out, response); // Respuesta generada por un middleware global
                     return;
+                }
+
+                // Ejecutar middlewares específicos de la ruta
+                List<Middleware> routeMiddlewares = routeMatch.getMiddlewares();
+                if (routeMiddlewares != null && !routeMiddlewares.isEmpty()) {
+                    MiddlewareChain routeChain = new MiddlewareChain(routeMiddlewares.iterator());
+                    if (!routeChain.next(request, response)) {
+                        sendResponse(out, response); // Respuesta generada por un middleware de ruta
+                        return;
+                    }
                 }
 
                 // Ejecutar el manejador
@@ -265,7 +303,6 @@ public class Server {
             sendResponse(out, new Response(500, new JSONObject().put("error", "Error interno del servidor")));
         }
     }
-
     /**
      * Envía una respuesta HTTP al cliente.
      */
