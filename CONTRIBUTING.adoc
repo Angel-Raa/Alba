@@ -18,9 +18,6 @@ Esta guía explica cómo puedes contribuir de manera efectiva a **Alba**. Por fa
 4. <<documentacion, Documentación>>
 5. <<licencia, Licencia>>
 
-== Código de Conducta
-
-Nos adherimos a un [Código de Conducta](CODE_OF_CONDUCT.md) para garantizar un entorno acogedor e inclusivo para todos los colaboradores. Por favor, revísalo antes de participar en el proyecto.
 
 == Cómo Contribuir
 
