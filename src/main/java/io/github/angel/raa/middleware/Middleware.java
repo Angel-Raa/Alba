@@ -13,7 +13,6 @@ import io.github.angel.raa.core.Response;
  * If the handle method returns true, the request processing will continue with the next middleware in the chain.
  *
  *
- * <p>
  * Example:
  * <pre>
  *     {@code
@@ -26,7 +25,6 @@ import io.github.angel.raa.core.Response;
  *     }
  *     }
  *     </pre>
- * </p>
  */
 @FunctionalInterface
 public interface Middleware {

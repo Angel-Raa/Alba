@@ -19,7 +19,6 @@ import java.util.logging.Logger;
  * Si las credenciales son válidas, permite el acceso al recurso solicitado.
  * Si las credenciales no son válidas, devuelve un error de autenticación.
  *
- * <p>
  * <pre>{@code
  *         Ejemplo de uso:
  *         BasicAuthMiddleware basicAuthMiddleware = new BasicAuthMiddleware();
@@ -41,7 +40,7 @@ import java.util.logging.Logger;
  *         server.start();
  *        }
  *     </pre>
- * </p>
+
  */
 public class BasicAuthMiddleware implements Middleware {
     private static final Logger logger = Logger.getLogger(BasicAuthMiddleware.class.getName());
@@ -182,7 +181,6 @@ public class BasicAuthMiddleware implements Middleware {
 
     /**
      * Agrega un patrón de ruta dinámico a la lista de rutas excluidas
-     * Ejemplo: /public/*
      *
      */
     public BasicAuthMiddleware addExcludedPathPattern(String pathPattern) {

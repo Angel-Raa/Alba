@@ -26,11 +26,11 @@ import java.util.Map;
  *         response.setBody("Hello World");
  *         }
  *     </pre>
- * <pre>
+ *    <pre>
  *         {@code
  *         Response response = new Response(200, "Hello World");
  *         }
- * </p>
+ *   </pre>
  */
 public class Response implements Serializable {
     @Serial

@@ -73,7 +73,6 @@ import static java.lang.System.out;
  * server.stop();
  * }</pre>
  *
- * @Author Angel Aguero
  */
 public class Server {
     private static final System.Logger logger = System.getLogger(Server.class.getName());

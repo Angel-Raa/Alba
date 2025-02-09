@@ -14,17 +14,17 @@ import java.util.Set;
 
 /**
  * Middleware para validar los datos de entrada de una solicitud HTTP.
- * <p>
+ *
  * Este middleware utiliza la biblioteca de validación de Java (JSR 380) para validar los datos de entrada de una solicitud HTTP.
  * Si los datos no son válidos, se devuelve una respuesta con un código de estado 400 y un mensaje de error.
- * <p>
+ *
  * El middleware puede ser utilizado en una aplicación web para validar los datos de entrada de una solicitud HTTP antes de que se procese por el controlador.
- * <p>
+ *
  * Ejemplo de uso:
  * <pre>{@code
  * server.post("/users", request -> new Response(200, new JSONObject().put("message", "Okey con POST")), new ValidationMiddleware<>(User.class));
  * }</pre>
- * <p>
+ *
  * Donde {@code User} es una clase que representa los datos de entrada de una solicitud HTTP.
  *
  */

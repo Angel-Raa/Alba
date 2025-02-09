@@ -9,13 +9,12 @@ import java.util.stream.Collectors;
 
 /**
  * Middleware para manejar el idioma de la solicitud.
- * <p>
  * Este middleware permite establecer un idioma predeterminado y verificar si el cliente
  * acepta un idioma específico. Si el cliente no acepta un idioma específico, se enviará
  * una respuesta de error 406 (Not Acceptable).
- * <p>
  * Ejemplo de uso:
- * <pre>{@code
+ * <pre>
+ *     {@code
  * new Server(8080)
  *     .use(new LanguageMiddleware()
  *         .setDefaultLanguage("es")
@@ -27,8 +26,8 @@ import java.util.stream.Collectors;
  *         String language = request.getHeader("Accept-Language");
  *         return new Response(200, new JSONObject().put("message", "Hello, World!").put("language", language));
  *     });
- * }</pre>
- * <p>
+ *  }
+ *  </pre>
  *
  * @see Request#getHeader(String)
  * @see Response#build()

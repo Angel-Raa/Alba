@@ -33,13 +33,13 @@ import java.util.Map;
  *         JSONObject body = request.getBody();
  *         }
  *      </pre>
- * <pre>{@code
+ *
+ *    <pre>
+ *       {@code
  *         String userId = request.getParams().get("id");
  *         String name = request.getBody().getString("name");
  *         }
  *      </pre>
- * </p>
- * @Author Angel Aguero
  */
 public class Request {
     private static final ObjectMapper objectMapper = new ObjectMapper()

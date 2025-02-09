@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  * ServerTimingMiddleware es un middleware que registra el tiempo de ejecución de las operaciones en el servidor.
  * También agrega encabezados de Server-Timing para que el cliente pueda medir el tiempo de ejecución de las operaciones.
  *
- * <p>
+ *
  * <pre>{@code
  *       ServerTimingMiddleware serverTimingMiddleware = new ServerTimingMiddleware();
  *       serverTimingMiddleware.addTiming("db", "Database operation", 100);
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  *       });
  *     }
  *     </pre>
- * </p>
+ *
  */
 public class ServerTimingMiddleware implements Middleware {
     private static final Logger LOGGER = Logger.getLogger(ServerTimingMiddleware.class.getName());
