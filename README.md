@@ -121,7 +121,7 @@ public Response addTemplate(String templateName, Map<String, Object> model) {
 
 ---
 
-## **Otros Middlewares y Funcionalidades Avanzadas**
+## **Middlewares**
 
 ### A. **Middleware CORS (CorsMiddleware)**
 
