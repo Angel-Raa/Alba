@@ -262,10 +262,10 @@ public class Main {
 
 ## **Rutas Disponibles**
 
-- **GET**: Para obtener información.
-- **POST**: Para enviar datos.
-- **PUT**: Para actualizar datos.
-- **DELETE**: Para eliminar datos.
+- **GET**
+- **POST**
+- **PUT**
+- **DELETE**
 
 ---
 
