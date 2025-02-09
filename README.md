@@ -269,17 +269,6 @@ public class Main {
 
 ---
 
-
-## **Contribuciones**
-
-Si deseas contribuir al proyecto, sigue estos pasos:
-
-1. Haz un fork del repositorio.
-2. Crea una nueva rama (`git checkout -b feature/nueva-funcionalidad`).
-3. Realiza tus cambios y envía un pull request.
-
----
-
 ## **Licencia**
 
 Este proyecto está bajo la licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
