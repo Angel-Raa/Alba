@@ -88,9 +88,6 @@ public class Server {
      * Constructor de la clase Server.
      * Inicializa el servidor con el puerto, host y tamaño del pool de hilos especificados.
      *
-     * @param port
-     * @param host
-     * @param threadPoolSize
      */
     public Server(int port, String host, int threadPoolSize) {
         this.port = port;
@@ -103,8 +100,6 @@ public class Server {
      * Inicializa el servidor con el puerto y host especificados.
      * Tamaño del pool de hilos por defecto: 10
      *
-     * @param port
-     * @param host
      */
     public Server(int port, String host) {
         this.port = port;
@@ -118,7 +113,6 @@ public class Server {
      * Host por defecto: "localhost"
      * Tamaño del pool de hilos por defecto: 10
      *
-     * @param port
      */
     public Server(int port) {
         this(port, "localhost");
@@ -170,11 +164,6 @@ public class Server {
     /**
      * Agrega un controlador con middlewares específicos.
      *
-     * @param controller  Controlador a agregar
-     * @param middlewares Middlewares a aplicar al controlador
-     * @see Controller
-     * @see Middleware
-     * @see Router
      */
     public void addController(Controller controller, Middleware... middlewares) {
 
@@ -253,10 +242,6 @@ public class Server {
     /**
      * Maneja una solicitud HTTP entrante.
      *
-     * @param clientSocket
-     * @throws IOException
-     * @see Request
-     * @see Response
      */
     private void handleRequest(Socket clientSocket) throws IOException {
         try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));

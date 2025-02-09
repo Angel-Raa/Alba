@@ -51,8 +51,6 @@ public class Response implements Serializable {
     /**
      * Constructor para JSON (application/json)
      *
-     * @param status
-     * @param body
      */
     public Response(int status, JSONObject body) {
         this.status = status;
@@ -63,8 +61,7 @@ public class Response implements Serializable {
     /**
      * Constructor para texto plano (text/plain)
      *
-     * @param status
-     * @param body
+
      */
     public Response(int status, String body) {
         this.status = status;
@@ -76,9 +73,6 @@ public class Response implements Serializable {
     /**
      * Constructor para archivos (application/octet-stream)
      *
-     * @param status
-     * @param body
-     * @param contentType
      */
     public Response(int status, byte[] body, String contentType) {
         this.status = status;
@@ -93,8 +87,6 @@ public class Response implements Serializable {
     /**
      * Constructor para JSON (application/json)
      *
-     * @param body
-     * @return
      */
     public static Response Ok(String body) {
         return new Response(200, body);
@@ -103,9 +95,6 @@ public class Response implements Serializable {
     /**
      * Constructor para archivos (application/octet-stream)
      *
-     * @param body
-     * @param contentType
-     * @return
      */
     public static Response Ok(byte[] body, String contentType) {
         return new Response(200, body, contentType);
@@ -114,8 +103,6 @@ public class Response implements Serializable {
     /**
      * Constructor para JSON (application/json)
      *
-     * @param body
-     * @return
      */
     public static Response NotFound(JSONObject body) {
         return new Response(404, body);
@@ -124,8 +111,6 @@ public class Response implements Serializable {
     /**
      * Constructor para texto plano (text/plain)
      *
-     * @param body
-     * @return
      */
     public static Response NotFound(String body) {
         return new Response(404, body);
@@ -134,8 +119,6 @@ public class Response implements Serializable {
     /**
      * Constructor para JSON (application/json)
      *
-     * @param body
-     * @return
      */
     public static Response BadRequest(JSONObject body) {
         return new Response(400, body);
@@ -144,8 +127,6 @@ public class Response implements Serializable {
     /**
      * Constructor para texto plano (text/plain)
      *
-     * @param body
-     * @return
      */
     public static Response BadRequest(String body) {
         return new Response(400, body);
@@ -154,8 +135,6 @@ public class Response implements Serializable {
     /**
      * Constructor para JSON (application/json)
      *
-     * @param body
-     * @return
      */
     public static Response Unauthorized(JSONObject body) {
         return new Response(401, body);
@@ -164,8 +143,6 @@ public class Response implements Serializable {
     /**
      * Constructor para texto plano (text/plain)
      *
-     * @param body
-     * @return
      */
     public static Response Unauthorized(String body) {
         return new Response(401, body);
@@ -174,8 +151,6 @@ public class Response implements Serializable {
     /**
      * Constructor para JSON (application/json)
      *
-     * @param body
-     * @return
      */
     public static Response Forbidden(JSONObject body) {
         return new Response(403, body);
@@ -183,9 +158,6 @@ public class Response implements Serializable {
 
     /**
      * Constructor para texto plano (text/plain)
-     *
-     * @param body
-     * @return
      */
     public static Response Forbidden(String body) {
         return new Response(403, body);
@@ -194,8 +166,6 @@ public class Response implements Serializable {
     /**
      * Constructor para JSON (application/json)
      *
-     * @param body
-     * @return
      */
     public static Response InternalServerError(JSONObject body) {
         return new Response(500, body);
@@ -204,8 +174,6 @@ public class Response implements Serializable {
     /**
      * Constructor para texto plano (text/plain)
      *
-     * @param body
-     * @return
      */
     public static Response InternalServerError(String body) {
         return new Response(500, body);
@@ -214,8 +182,6 @@ public class Response implements Serializable {
     /**
      * Constructor para JSON (application/json)
      *
-     * @param body
-     * @return
      */
     public static Response Created(JSONObject body) {
         return new Response(201, body);
@@ -223,9 +189,6 @@ public class Response implements Serializable {
 
     /**
      * Constructor para texto plano (text/plain)
-     *
-     * @param body
-     * @return
      */
     public static Response Created(String body) {
         return new Response(201, body);
@@ -238,8 +201,6 @@ public class Response implements Serializable {
     /**
      * Constructor para texto plano (text/plain)
      *
-     * @param body
-     * @return
      */
     public static Response NoContent(String body) {
         return new Response(204, body);
@@ -248,9 +209,6 @@ public class Response implements Serializable {
     /**
      * Constructor para archivos (application/octet-stream)
      *
-     * @param body
-     * @param contentType
-     * @return
      */
     public static Response NoContent(byte[] body, String contentType) {
         return new Response(204, body, contentType);
@@ -259,8 +217,6 @@ public class Response implements Serializable {
     /**
      * Constructor para JSON (application/json)
      *
-     * @param body
-     * @return
      */
     public static Response Accepted(JSONObject body) {
         return new Response(202, body);
@@ -269,8 +225,6 @@ public class Response implements Serializable {
     /**
      * Constructor para texto plano (text/plain)
      *
-     * @param body
-     * @return
      */
     public static Response Accepted(String body) {
         return new Response(202, body);
@@ -279,9 +233,6 @@ public class Response implements Serializable {
     /**
      * Constructor para archivos (application/octet-stream)
      *
-     * @param body
-     * @param contentType
-     * @return
      */
     public static Response Accepted(byte[] body, String contentType) {
         return new Response(202, body, contentType);
@@ -290,8 +241,6 @@ public class Response implements Serializable {
     /**
      * Agrega una cabecera al response
      *
-     * @param key
-     * @param value
      */
     public void addHeader(String key, String value) {
         headers.put(key, value);
@@ -300,7 +249,6 @@ public class Response implements Serializable {
     /**
      * Elimina una cabecera del response
      *
-     * @param key
      */
     public void removeHeader(String key) {
         headers.remove(key);
@@ -309,7 +257,6 @@ public class Response implements Serializable {
     /**
      * Obtene el status del response
      *
-     * @return int
      */
     public int getStatus() {
         return status;
@@ -322,8 +269,6 @@ public class Response implements Serializable {
      * al response. Si se proporciona un valor fuera de este rango, se lanzará una excepción.
      * </p>
      *
-     * @param status El código de estado HTTP. Debe ser un valor entre 100 y 599.
-     * @throws IllegalArgumentException Si el código de estado proporcionado no es válido.
      */
     public void setStatus(int status) {
         if (status < 100 || status > 599) {
@@ -339,8 +284,6 @@ public class Response implements Serializable {
      * que puede ser una cadena de texto, un objeto JSON, o cualquier otro tipo de contenido.
      * </p>
      *
-     * @param body El contenido del cuerpo de la respuesta. Puede ser un {@code String},
-     *             un {@code JSONObject}, o cualquier otro objeto serializable.
      */
     public void setBody(Object body) {
         this.body = body;
@@ -349,7 +292,6 @@ public class Response implements Serializable {
     /**
      * Obtiene el cuerpo del response
      *
-     * @return
      */
     public void setBody(JSONObject body) {
         this.body = body;
@@ -358,7 +300,6 @@ public class Response implements Serializable {
     /**
      * Obtiene las cabeceras del response
      *
-     * @return
      */
     public Map<String, String> getHeaders() {
         return headers;
@@ -376,7 +317,7 @@ public class Response implements Serializable {
     /**
      * Metodo que construye la respuesta HTTP
      *
-     * @return String
+
      */
     public String build() {
         StringBuilder responseBuilder = new StringBuilder();
@@ -419,11 +360,6 @@ public class Response implements Serializable {
     /**
      * Agrega una cookie al response
      *
-     * @param name
-     * @param value
-     * @param maxAge
-     * @param httpOnly
-     * @param secure
      */
     public void addCookie(String name, String value, int maxAge, boolean httpOnly, boolean secure) {
         StringBuilder cookieValue = new StringBuilder();
@@ -444,7 +380,6 @@ public class Response implements Serializable {
     /**
      * Elimina una cookie del response
      *
-     * @param name
      */
     public void deleteCookie(String name) {
         addHeader("Set-Cookie", name + "=; Max-Age=0; HttpOnly; Secure");
@@ -453,9 +388,7 @@ public class Response implements Serializable {
     /**
      * Agrega una cabecera CORS al response
      *
-     * @param origin
-     * @param methods
-     * @param headers
+
      */
     public void setCORS(String origin, String methods, String headers) {
         addHeader("Access-Control-Allow-Origin", origin);
@@ -471,8 +404,6 @@ public class Response implements Serializable {
      * Además, configura el encabezado {@code Content-Type} como {@code text/html}.
      * </p>
      *
-     * @param template Nombre o contenido de la plantilla a renderizar.
-     * @return La instancia actual de {@code Response}, permitiendo encadenamiento de métodos.
      */
     public Response addTemplate(String template) {
         addHeader("Content-Type", "text/html; charset=" + charset);
@@ -488,10 +419,6 @@ public class Response implements Serializable {
      * Además, configura el encabezado {@code Content-Type} como {@code text/html}.
      * </p>
      *
-     * @param template
-     * @param key
-     * @param value
-     * @return {@code Response}
      */
     public Response addTemplate(String template, String key, Object value) {
         addHeader("Content-Type", "text/html; charset=" + charset);
@@ -507,9 +434,6 @@ public class Response implements Serializable {
      * Además, configura el encabezado {@code Content-Type} como {@code text/html}.
      * </p>
      *
-     * @param template
-     * @param model
-     * @return {@code Response}
      */
     public Response addTemplate(String template, Map<String, Object> model) {
         addHeader("Content-Type", "text/html; charset=" + charset);

@@ -36,7 +36,6 @@ public class Session {
 
     /***
      * Checks if the session has expired.
-     * @return true if the session has expired, false otherwise
      */
     public boolean isExpired() {
         return System.currentTimeMillis() - lastAccessTime > SESSION_TIMEOUT;
@@ -59,8 +58,6 @@ public class Session {
 
     /***
      * Sets an attribute in the session.
-     * @param name The name of the attribute
-     * @param value The value of the attribute
      */
     public void setAttribute(String name, Object value) {
         attributes.put(name, value);
@@ -68,8 +65,6 @@ public class Session {
 
     /***
      * Gets an attribute from the session.
-     * @param name The name of the attribute
-     * @return The value of the attribute, or null if the attribute does not exist
      */
     public Object getAttribute(String name) {
         return attributes.get(name);
@@ -77,7 +72,6 @@ public class Session {
 
     /***
      * Removes an attribute from the session.
-     * @param name The name of the attribute
      */
     public void removeAttribute(String name) {
         attributes.remove(name);

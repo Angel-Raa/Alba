@@ -13,8 +13,6 @@ public interface Handler {
     /**
      * Handle the request and return a response.
      *
-     * @param request
-     * @return Response
      */
     Response handle(Request request);
 }

@@ -69,10 +69,6 @@ public class Router {
     /**
      * Agrega una nueva ruta al enrutador.
      *
-     * @param method      Método HTTP (GET, POST, PUT, DELETE, etc.)
-     * @param path        Ruta (puede incluir parámetros dinámicos, ej.: /users/:id)
-     * @param middlewares Lista de middlewares asociados a la ruta
-     * @param handler     Manejador asociado a la ruta
      */
     public void addRoute(String method, String path, Handler handler, Middleware... middlewares) {
         routes.computeIfAbsent(method.toUpperCase(), k -> new HashMap<>()).put(path, handler);
@@ -84,9 +80,6 @@ public class Router {
     /**
      * Obtiene el manejador correspondiente a una ruta específica.
      *
-     * @param method   Método HTTP
-     * @param fullPath Ruta solicitada
-     * @return Un objeto RouteMatch si se encuentra una coincidencia, o null si no.
      */
     public RouteMatch getRouteMatch(String method, String fullPath) {
         String path = extractPathWithoutQueryParams(fullPath);
@@ -113,8 +106,6 @@ public class Router {
     /**
      * Agrega un controlador al enrutador.
      *
-     * @param controller
-     * @throws RouteException Si hay un error al agregar las rutas del controlador
      */
     public void addController(Controller controller, Middleware... middlewares) {
         for (Map.Entry<String, Handler> entry : controller.getRoutes().entrySet()) {
@@ -135,9 +126,6 @@ public class Router {
     /**
      * Extrae los parámetros dinámicos de una ruta.
      *
-     * @param routePath Ruta definida en el enrutador (puede incluir parámetros dinámicos)
-     * @param path      Ruta solicitada
-     * @return Un mapa con los parámetros extraídos, o null si no hay coincidencia.
      */
     private Map<String, String> extractParams(String routePath, String path) {
         String[] routeParts = routePath.split("/");
@@ -167,8 +155,7 @@ public class Router {
     /**
      * Agrega una ruta GET al enrutador.
      *
-     * @param path
-     * @param handler
+
      */
     public void get(String path, Handler handler) {
         addRoute("GET", path, handler);
@@ -177,8 +164,7 @@ public class Router {
     /**
      * Agrega una ruta POST al enrutador.
      *
-     * @param path
-     * @param handler
+
      */
     public void post(String path, Handler handler) {
         addRoute("POST", path, handler);
@@ -187,8 +173,7 @@ public class Router {
     /**
      * Agrega una ruta PUT al enrutador.
      *
-     * @param path
-     * @param handler
+
      */
     public void put(String path, Handler handler) {
         addRoute("PUT", path, handler);
@@ -197,8 +182,7 @@ public class Router {
     /**
      * Agrega una ruta DELETE al enrutador.
      *
-     * @param path
-     * @param handler
+
      */
     public void delete(String path, Handler handler) {
         addRoute("DELETE", path, handler);
@@ -207,8 +191,6 @@ public class Router {
     /**
      * Agrega una ruta PATCH al enrutador.
      *
-     * @param path
-     * @param handler
      */
     public void patch(String path, Handler handler) {
         addRoute("PATCH", path, handler);

@@ -42,10 +42,6 @@ public class TemplateProcessor {
     /**
      * Renderiza una plantilla Thymeleaf con un modelo de datos.
      *
-     * @param templateName Nombre de la plantilla (sin extensión).
-     * @param model        Mapa de datos para la plantilla.
-     * @return String HTML renderizado.
-     * @throws TemplateNotFoundException
      */
     public String render(String templateName, Map<String, Object> model) {
         try {
@@ -60,8 +56,6 @@ public class TemplateProcessor {
     /**
      * Renderiza una plantilla Thymeleaf sin modelo de datos.
      *
-     * @param templateName Nombre de la plantilla (sin extensión).
-     * @return String HTML renderizado.
      */
     public String render(String templateName) {
         try {
@@ -74,11 +68,6 @@ public class TemplateProcessor {
     /**
      * Renderiza una plantilla Thymeleaf con una variable de datos.
      *
-     * @param templateName Nombre de la plantilla (sin extensión).
-     * @param key          Clave de la variable.
-     * @param value        Valor de la variable.
-     * @return String HTML renderizado.
-     * @throws Exception Si ocurre un error durante el procesamiento de la plantilla.
      */
     public String render(String templateName, String key, Object value) {
         try {

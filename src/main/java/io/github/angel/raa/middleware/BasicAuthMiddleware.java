@@ -151,8 +151,6 @@ public class BasicAuthMiddleware implements Middleware {
     /**
      * Agrega una credencial válida
      *
-     * @param username
-     * @param password
      */
     public void addCredential(String username, String password) {
 //        if(!isStrongPassword(password)){
@@ -165,7 +163,6 @@ public class BasicAuthMiddleware implements Middleware {
     /**
      * Elimina una credencial válida
      *
-     * @param username
      */
     public void removeCredential(String username) {
         validCredentials.remove(username);
@@ -174,12 +171,6 @@ public class BasicAuthMiddleware implements Middleware {
     /**
      * Agrega una ruta a la lista de rutas excluidas
      *
-     * @param path
-     * @param path
-     * @return BasicAuthMiddleware
-     * @return BasicAuthMiddleware
-     * @throws InvalidPathPatternException
-     * @see AlbaUtils
      */
     public BasicAuthMiddleware addExcludedPath(String path) {
         if (AlbaUtils.isPathPattern(path)) {
@@ -193,10 +184,6 @@ public class BasicAuthMiddleware implements Middleware {
      * Agrega un patrón de ruta dinámico a la lista de rutas excluidas
      * Ejemplo: /public/*
      *
-     * @param pathPattern
-     * @return BasicAuthMiddleware
-     * @throws InvalidPathPatternException
-     * @see AlbaUtils
      */
     public BasicAuthMiddleware addExcludedPathPattern(String pathPattern) {
         if (!AlbaUtils.isPathPattern(pathPattern)) {
@@ -212,10 +199,6 @@ public class BasicAuthMiddleware implements Middleware {
     /**
      * Establece el realm de autenticación
      *
-     * @param realm
-     * @return BasicAuthMiddleware
-     * @throws IllegalArgumentException
-     * @see AlbaUtils
      */
     public BasicAuthMiddleware setRealm(String realm) {
         if (AlbaUtils.isNotBlank(realm)) {
@@ -238,9 +221,6 @@ public class BasicAuthMiddleware implements Middleware {
     /**
      * Encripta una contraseña con BCrypt
      *
-     * @param password
-     * @return String
-     * @see BCrypt
      */
     private String hashPassword(String password) {
         return BCrypt.withDefaults().hashToString(12, password.toCharArray());
@@ -250,10 +230,6 @@ public class BasicAuthMiddleware implements Middleware {
     /**
      * Verifica si una contraseña es válida
      *
-     * @param username
-     * @param password
-     * @return boolean
-     * @see BCrypt
      */
     private boolean verifyPassword(String username, String password) {
         String hashedPassword = validCredentials.get(username);
@@ -263,9 +239,6 @@ public class BasicAuthMiddleware implements Middleware {
     /**
      * Registra un intento de autenticación
      *
-     * @param username
-     * @param b
-     * @see Logger
      */
     private void logAuthenticationAttempt(String username, boolean b) {
         String message = b ? "Autenticación exitosa para el usuario " + username : "Autenticación fallida para el usuario " + username;
@@ -276,8 +249,6 @@ public class BasicAuthMiddleware implements Middleware {
     /**
      * Verifica si una ruta es pública
      *
-     * @param path
-     * @return boolean
      */
     private boolean isPublicRoute(String path) {
         return matchesExcludedPathPatterns(path) || excludedPaths.contains(path);
@@ -286,9 +257,6 @@ public class BasicAuthMiddleware implements Middleware {
     /**
      * Verifica si una contraseña es segura
      *
-     * @param password
-     * @return boolean
-     * @see AlbaUtils
      */
     private boolean isStrongPassword(String password) {
         return password.length() >= 8 &&

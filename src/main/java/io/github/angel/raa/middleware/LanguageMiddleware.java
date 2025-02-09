@@ -47,10 +47,6 @@ public class LanguageMiddleware implements Middleware {
      * Agrega un idioma soportado al middleware.
      * Si el idioma no es válido, se lanzará una IllegalArgumentException.
      *
-     * @param language
-     * @return LanguageMiddleware
-     * @throws IllegalArgumentException
-     * @see AlbaUtils#isNotBlank(String)
      */
     public LanguageMiddleware addSupportedLanguage(String language) {
         if (!AlbaUtils.isNotBlank(language)) {
@@ -64,10 +60,6 @@ public class LanguageMiddleware implements Middleware {
      * Agrega varios idiomas soportados al middleware.
      * Si alguno de los idiomas no es válido, se lanzará una IllegalArgumentException.
      *
-     * @param languages
-     * @return LanguageMiddleware
-     * @throws IllegalArgumentException
-     * @see AlbaUtils#isNotBlank(String)
      */
     public LanguageMiddleware addSupportedLanguages(Set<String> languages) {
         if (languages.stream().anyMatch(land -> !AlbaUtils.isNotBlank(land))) {
@@ -81,10 +73,6 @@ public class LanguageMiddleware implements Middleware {
      * Agrega varios idiomas soportados al middleware.
      * Si alguno de los idiomas no es válido, se lanzará una IllegalArgumentException.
      *
-     * @param languages
-     * @return LanguageMiddleware
-     * @throws IllegalArgumentException
-     * @see AlbaUtils#isNotBlank(String)
      */
     public LanguageMiddleware addSupportedLanguages(String... languages) {
         if (Arrays.stream(languages).anyMatch(land -> !AlbaUtils.isNotBlank(land))) {
@@ -98,10 +86,6 @@ public class LanguageMiddleware implements Middleware {
      * Establece el encabezado de idioma.
      * Si el encabezado no es válido, se lanzará una IllegalArgumentException.
      *
-     * @param languageHeader
-     * @return LanguageMiddleware
-     * @throws IllegalArgumentException
-     * @see AlbaUtils#isNotBlank(String)
      */
     public LanguageMiddleware setLanguageHeader(String languageHeader) {
         if (!AlbaUtils.isNotBlank(languageHeader)) {
@@ -115,10 +99,6 @@ public class LanguageMiddleware implements Middleware {
      * Establece el idioma por defecto.
      * Si el idioma no es válido, se lanzará una IllegalArgumentException.
      *
-     * @param defaultLanguage
-     * @return LanguageMiddleware
-     * @throws IllegalArgumentException
-     * @see AlbaUtils#isNotBlank(String)
      */
     public LanguageMiddleware setDefaultLanguage(String defaultLanguage) {
         if (!AlbaUtils.isNotBlank(defaultLanguage)) {
@@ -138,10 +118,7 @@ public class LanguageMiddleware implements Middleware {
     }
 
     /**
-     * Determina el idioma preferido basándose en el encabezado de idioma.
-     *
-     * @param acceptLanguageHeader Encabezado de idioma de la solicitud.
-     * @return Código del idioma preferido.
+     * Determina el idioma preferido basándose en el encabezado de idioma..
      */
     private String determinePreferredLanguage(String acceptLanguageHeader) {
         if (!AlbaUtils.isNotBlank(acceptLanguageHeader)) return defaultLanguage;

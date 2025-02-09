@@ -61,7 +61,6 @@ public class CorsMiddleware implements Middleware {
     /**
      * Configura el middleware para permitir todos los orígenes.
      *
-     * @return CorsMiddleware configurado para permitir todos los orígenes.
      */
     public static CorsMiddleware allowAll() {
         CorsMiddleware corsMiddleware = new CorsMiddleware();
@@ -72,8 +71,6 @@ public class CorsMiddleware implements Middleware {
     /**
      * Agrega un origen permitido al middleware.
      *
-     * @param origin
-     * @return
      */
     public CorsMiddleware addAllowedOrigin(String origin) {
         this.allowedOrigins.add(origin);
@@ -83,8 +80,6 @@ public class CorsMiddleware implements Middleware {
     /**
      * Agrega un método HTTP permitido al middleware.
      *
-     * @param method
-     * @return
      */
     public CorsMiddleware addAllowedMethod(String method) {
         this.allowedMethods.add(method);
@@ -94,7 +89,6 @@ public class CorsMiddleware implements Middleware {
     /**
      * Agrega un encabezado permitido al middleware.
      *
-     * @param header
      */
     public CorsMiddleware addAllowedHeader(String header) {
         if (!this.allowedHeaders.contains(header)) {
@@ -105,9 +99,7 @@ public class CorsMiddleware implements Middleware {
 
     /**
      * Agrega una lista de orígenes permitidos al middleware.
-     *
-     * @param origins
-     * @return CorsMiddleware configurado para permitir los orígenes especificados.
+     *.
      */
     public CorsMiddleware addAllowedOrigins(List<String> origins) {
         allowedOrigins.addAll(origins.stream().filter(o -> !allowedOrigins.contains(o)).toList());
@@ -117,8 +109,6 @@ public class CorsMiddleware implements Middleware {
     /**
      * Agrega una lista de orígenes permitidos al middleware.
      *
-     * @param origins
-     * @return CorsMiddleware configurado para permitir los orígenes especificados.
      */
     public CorsMiddleware addAllowedOrigins(String... origins) {
         allowedOrigins.addAll(Arrays.stream(origins).filter(o -> !allowedOrigins.contains(o)).toList());
@@ -128,8 +118,6 @@ public class CorsMiddleware implements Middleware {
     /**
      * Agrega una lista de métodos HTTP permitidos al middleware.
      *
-     * @param methods
-     * @return CorsMiddleware configurado para permitir los métodos HTTP especificados.
      */
     public CorsMiddleware addAllowedMethods(List<String> methods) {
         allowedMethods.addAll(methods.stream()
@@ -141,8 +129,6 @@ public class CorsMiddleware implements Middleware {
     /**
      * Agrega una lista de métodos HTTP permitidos al middleware.
      *
-     * @param methods
-     * @return CorsMiddleware configurado para permitir los métodos HTTP especificados.
      */
     public CorsMiddleware addAllowedMethods(String... methods) {
         allowedMethods.addAll(Arrays.stream(methods)
@@ -154,8 +140,6 @@ public class CorsMiddleware implements Middleware {
     /**
      * Agrega una lista de encabezados permitidos al middleware.
      *
-     * @param headers
-     * @return CorsMiddleware configurado para permitir los encabezados especificados.
      */
     public CorsMiddleware addAllowedHeaders(String... headers) {
         allowedHeaders.addAll(Arrays.stream(headers)
@@ -166,9 +150,6 @@ public class CorsMiddleware implements Middleware {
     /**
      * Establece el tiempo máximo de vida (en segundos) de la respuesta preflight.
      *
-     * @param maxAge
-     * @return CorsMiddleware configurado para permitir los encabezados especificados.
-     * @throws IllegalArgumentException Si maxAge es negativo o mayor que 86400
      */
     public CorsMiddleware setMaxAge(int maxAge) throws IllegalArgumentException {
         if (maxAge < 0) {
@@ -187,8 +168,6 @@ public class CorsMiddleware implements Middleware {
     /**
      * Establece si se permiten credenciales en las solicitudes.
      *
-     * @param allowCredentials
-     * @return CorsMiddleware configurado para permitir las credenciales.
      */
     public CorsMiddleware setAllowCredentials(boolean allowCredentials) {
         this.allowCredentials = allowCredentials;
@@ -197,9 +176,7 @@ public class CorsMiddleware implements Middleware {
 
     /**
      * Agrega una lista de encabezados permitidos al middleware.
-     *
-     * @param headers
-     * @return CorsMiddleware configurado para permitir los encabezados especificados.
+     *.
      */
     public CorsMiddleware addAllowedHeaders(List<String> headers) {
         allowedHeaders.addAll(headers.stream().filter(h -> !allowedHeaders.contains(h)).toList());
@@ -257,8 +234,6 @@ public class CorsMiddleware implements Middleware {
     /**
      * Verifica si el origen está permitido.
      *
-     * @param origin
-     * @return true si el origen está permitido, false en caso contrario
      */
     private boolean isOriginAllowed(String origin) {
         return allowedOrigins.contains("*") || allowedOrigins.contains(origin);

@@ -52,10 +52,6 @@ public class ServerTimingMiddleware implements Middleware {
     /**
      * Agrega una métrica al middleware.
      *
-     * @param metric
-     * @param description
-     * @param time
-     * @throws IllegalArgumentException
      */
     public void addTiming(String metric, String description, long time) {
         if (metric == null || metric.isEmpty()) {
@@ -93,9 +89,6 @@ public class ServerTimingMiddleware implements Middleware {
     /**
      * Medir una operación asíncrona.
      *
-     * @param metric
-     * @param description
-     * @param operation
      */
     public void measureAsyncOperation(String metric, String description, Runnable operation) {
         long start = System.currentTimeMillis();

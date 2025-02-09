@@ -51,8 +51,6 @@ public class TemplateConfig {
      * - alba.template.prefix: sets the template prefix path
      * - alba.template.suffix: sets the template file suffix
      *
-     * @throws AlbaConfigurationException if the properties file is not found,
-     *                                    if there's an error loading the file, or if prefix/suffix values are blank
      */
     private void loadConfig() {
         Properties properties = new Properties();

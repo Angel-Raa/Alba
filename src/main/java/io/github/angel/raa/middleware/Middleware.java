@@ -36,10 +36,6 @@ public interface Middleware {
      * Handle the request and response.
      * If the handle method returns false, the request processing will stop and the response will be sent back to the client.
      * If the handle method returns true, the request processing will continue with the next middleware in the chain.
-     * @param request
-     * @param response
-     * @param chain
-     * @return boolean
      */
     boolean handle(final Request request, final Response response, final MiddlewareChain chain);
 

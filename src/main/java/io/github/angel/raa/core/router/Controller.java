@@ -20,8 +20,6 @@ import java.util.Map;
  * Clase que representa un controlador en el enrutador.
  * Cada controlador maneja un prefijo de ruta y contiene rutas y middlewares específicos.
  *
- * @see Router
- * @see Handler
  */
 public class Controller {
     private final String prefix;
@@ -70,10 +68,6 @@ public class Controller {
     /**
      * Configura las rutas del controlador automáticamente basándose en los métodos anotados con @Get, @Post, @Put y @Delete.
      *
-     * @see Get
-     * @see Post
-     * @see Put
-     * @see Delete
      */
 
     private void setupRoutesAutomatically() {
@@ -101,8 +95,6 @@ public class Controller {
     /**
      * Crea un manejador para un método del controlador.
      *
-     * @param method Método del controlador
-     * @return Manejador creado
      */
     private Handler createHandler(Method method) {
         return request -> {

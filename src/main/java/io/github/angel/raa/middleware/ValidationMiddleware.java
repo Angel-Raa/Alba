@@ -27,7 +27,6 @@ import java.util.Set;
  * <p>
  * Donde {@code User} es una clase que representa los datos de entrada de una solicitud HTTP.
  *
- * @param <T>
  */
 public class ValidationMiddleware<T> implements Middleware {
     private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();

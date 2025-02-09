@@ -56,7 +56,6 @@ public class IpRestrictionMiddleware implements Middleware {
     /**
      * Agrega una IP permitida al middleware.
      *
-     * @param ip
      * @return IpRestrictionMiddleware
      */
     public IpRestrictionMiddleware addAllowedIp(String ip) {
@@ -67,8 +66,6 @@ public class IpRestrictionMiddleware implements Middleware {
     /**
      * Agrega varias IPs permitidas al middleware.
      *
-     * @param ips
-     * @return IpRestrictionMiddleware
      */
     public IpRestrictionMiddleware addAllowedIp(String... ips) {
         this.allowedIps.addAll(Arrays.asList(ips));
@@ -78,8 +75,6 @@ public class IpRestrictionMiddleware implements Middleware {
     /**
      * Agrega una IP bloqueada al middleware.
      *
-     * @param ip
-     * @return IpRestrictionMiddleware
      */
     public IpRestrictionMiddleware addBlockedIp(String ip) {
         this.blockedIps.add(ip);
@@ -89,8 +84,6 @@ public class IpRestrictionMiddleware implements Middleware {
     /**
      * Agrega varias IPs bloqueadas al middleware.
      *
-     * @param ips
-     * @return IpRestrictionMiddleware
      */
     public IpRestrictionMiddleware addBlockedIp(String... ips) {
         this.blockedIps.addAll(Arrays.asList(ips));
@@ -100,8 +93,6 @@ public class IpRestrictionMiddleware implements Middleware {
     /**
      * Establece si se permite todo por defecto o no.
      *
-     * @param allowAllByDefault
-     * @return IpRestrictionMiddleware
      */
     public IpRestrictionMiddleware setAllowAllByDefault(boolean allowAllByDefault) {
         this.allowAllByDefault = allowAllByDefault;
@@ -126,8 +117,6 @@ public class IpRestrictionMiddleware implements Middleware {
     /**
      * Verifica si una IP está permitida.
      *
-     * @param ip Dirección IP a verificar.
-     * @return true si la IP está permitida, false en caso contrario.
      */
     private boolean isIpAllowed(String ip) {
         // Si hay IPs bloqueadas y la IP está en la lista negra, denegar
@@ -143,9 +132,6 @@ public class IpRestrictionMiddleware implements Middleware {
     /**
      * Verifica si una IP coincide con algún rango en la lista.
      *
-     * @param ip    Dirección IP a verificar.
-     * @param ipSet Set de IPs o rangos de IPs.
-     * @return true si la IP coincide con algún rango, false en caso contrario.
      */
     private boolean matchesIpRange(String ip, Set<String> ipSet) {
         try {
@@ -166,9 +152,6 @@ public class IpRestrictionMiddleware implements Middleware {
     /**
      * Verifica si una dirección IP está dentro de un rango CIDR.
      *
-     * @param address Dirección IP a verificar.
-     * @param cidr    Rango CIDR (por ejemplo, 192.168.1.0/24).
-     * @return true si la IP está en el rango, false en caso contrario.
      */
     private boolean isInRange(InetAddress address, String cidr) {
         try {

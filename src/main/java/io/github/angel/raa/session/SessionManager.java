@@ -14,7 +14,6 @@ public class SessionManager {
 
     /***
      * Creates a new session and returns the session ID.
-     * @return The session ID
      */
     public static String createSession() {
         String sessionId = UUID.randomUUID().toString();

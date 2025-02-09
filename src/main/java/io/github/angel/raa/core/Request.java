@@ -83,7 +83,6 @@ public class Request {
      * Construye una instancia de Request a partir de un InputStream y un Socket.
      * Lanza una IOException si la solicitud está vacía o malformada.
      *
-     * @return Request
      */
     public static Request buildRequest(InputStream inputStream, Socket clientSocket) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -130,7 +129,6 @@ public class Request {
     /**
      * Este método es útil para extraer la ruta sin la consulta.
      *
-     * @return Ruta sin la consulta.
      */
     private static String extractPathWithoutQuery(String fullPath) {
         int queryIndex = fullPath.indexOf('?');
@@ -140,7 +138,6 @@ public class Request {
     /**
      * Este método es útil para decodificar valores de parámetros de ruta y consulta.
      *
-     * @return Valor decodificado.
      */
     private static String decode(String value) {
         try {
@@ -153,7 +150,7 @@ public class Request {
     /**
      * Obtiene la dirección IP del cliente.
      *
-     * @return IP
+
      */
     public String getClientIp() {
         return clientIp;
@@ -162,7 +159,6 @@ public class Request {
     /**
      * Obtiene el método HTTP de la solicitud.
      *
-     * @return Método HTTP de la solicitud.
      */
     public String getMethod() {
         return method;
@@ -179,7 +175,7 @@ public class Request {
     /**
      * Obtiene los encabezados de la solicitud.
      *
-     * @return Encabezados de la solicitud.
+
      */
     public Map<String, String> getHeaders() {
         return headers;
@@ -188,7 +184,7 @@ public class Request {
     /**
      * Obtiene el cuerpo de la solicitud.
      *
-     * @return Cuerpo de la solicitud.
+
      */
     public JSONObject getBody() {
         return body;
@@ -197,7 +193,6 @@ public class Request {
     /**
      * Obtiene el valor de un encabezado específico.
      *
-     * @return Valor del encabezado o null si no se encuentra.
      */
     public String getHeader(String key) {
         return headers.get(key);
@@ -206,7 +201,6 @@ public class Request {
     /**
      * Obtiene el valor de un parámetro específico.
      *
-     * @param key
      */
     public void setAttribute(String key, Object value) {
         attributes.put(key, value);
@@ -215,8 +209,6 @@ public class Request {
     /**
      * Obtiene el valor de un atributo específico.
      *
-     * @param key
-     * @return Valor del atributo o null si no se encuentra.
      */
     public Object getAttribute(String key) {
         return attributes.get(key);
@@ -225,7 +217,6 @@ public class Request {
     /**
      * Obtiene los parámetros de la solicitud.
      *
-     * @return Parámetros de la solicitud.
      */
     public Map<String, String> getParams() {
         return params != null ? params : new HashMap<>();
@@ -244,9 +235,6 @@ public class Request {
      * Si el parámetro no existe, devuelve null.
      * Si el parámetro existe pero no tiene valor, devuelve una cadena vacía.
      *
-     * @param key
-     * @return Valor del parámetro de ruta o null si no existe.
-     * @throws IllegalArgumentException
      */
     public String getPathParam(String key) throws IllegalArgumentException {
         return params.getOrDefault(key, null);
@@ -258,10 +246,6 @@ public class Request {
      * Si el valor es null, devuelve null.
      * Si el valor es un número válido, devuelve el valor como Long.
      *
-     * @param key
-     * @return Valor del parámetro de ruta como Long o null si no es un número válido.
-     * @throws NullPointerException
-     * @throws IllegalArgumentException
      */
     public Long getPathParamAsLong(String key) throws NullPointerException, IllegalArgumentException {
         String value = params.get(key);
@@ -274,8 +258,6 @@ public class Request {
      * Si el valor es null, devuelve null.
      * Si el valor es un número válido, devuelve el valor como Integer.
      *
-     * @param key
-     * @return Valor del parámetro de ruta como Integer o null si no es un número válido.
      */
     public Integer getPathParamAsInt(String key) throws NullPointerException, IllegalArgumentException {
         String value = params.get(key);
@@ -288,8 +270,7 @@ public class Request {
      * Si el valor es null, devuelve null.
      * Si el valor es un número válido, devuelve el valor como Double.
      *
-     * @param key
-     * @return Valor del parámetro de ruta como Double o null si no es un número válido.
+
      */
     public Double getPathParamAsDouble(String key) {
         String value = params.get(key);
@@ -301,10 +282,6 @@ public class Request {
      * Si el parámetro no existe, devuelve null.
      * Si el parámetro existe pero no tiene valor, devuelve una cadena vacía.
      *
-     * @param key
-     * @return Valor del parámetro de consulta o null si no existe.
-     * @throws NullPointerException
-     * @throws IllegalArgumentException
      */
     public String getQueryParam(String key) throws NullPointerException, IllegalArgumentException {
         return queryParams.getOrDefault(key, null);
@@ -315,10 +292,7 @@ public class Request {
      * Si el valor no es un número válido, devuelve null.
      * Si el valor es null, devuelve null.
      *
-     * @param key
-     * @return Valor del parámetro de consulta como Long o null si no es un número válido.
-     * @throws NumberFormatException
-     * @throws NullPointerException
+
      */
     public Long getQueryParamAsLong(String key) throws NumberFormatException, NullPointerException {
         String value = queryParams.get(key);
@@ -330,10 +304,7 @@ public class Request {
      * Si el valor no es un número válido, devuelve null.
      * Si el valor es null, devuelve null.
      *
-     * @param key
-     * @return Valor del parámetro de consulta como Integer o null si no es un número válido.
-     * @throws NumberFormatException
-     * @throws NullPointerException
+
      */
     public Integer getQueryParamAsInt(String key) throws NumberFormatException, NullPointerException {
         String value = queryParams.get(key);
@@ -345,10 +316,7 @@ public class Request {
      * Si el valor no es un número válido, devuelve null.
      * Si el valor es null, devuelve null.
      *
-     * @param key
-     * @return Valor del parámetro de consulta como Double o null si no es un número válido.
-     * @throws NumberFormatException
-     * @throws NullPointerException
+
      */
     public Double getQueryParamAsDouble(String key) throws NumberFormatException, NullPointerException {
         String value = queryParams.get(key);
@@ -358,9 +326,7 @@ public class Request {
     /**
      * Obtene el valor de un atributo de sesión.
      *
-     * @param key
-     * @return Valor del atributo de sesión o null si no se encuentra.
-     * @throws NullPointerException
+
      */
     public Object getSessionAttribute(String key) throws NullPointerException {
         return sessionAttributes.get(key);
@@ -369,8 +335,7 @@ public class Request {
     /**
      * Obtiene un valor del cuerpo como String.
      *
-     * @param key
-     * @return
+
      */
     public String getBodyString(String key) {
         return body.has(key) ? body.getString(key) : null;
@@ -379,8 +344,7 @@ public class Request {
     /**
      * Obtiene un valor del cuerpo como Long.
      *
-     * @param key
-     * @return
+
      */
     public Long getBodyLong(String key) {
         return body.has(key) ? body.getLong(key) : null;
@@ -397,7 +361,6 @@ public class Request {
     /**
      * Obtiene un valor del cuerpo como Double.
      *
-     * @return
      */
     public Double getBodyDouble(String key) {
         return body.has(key) ? body.getDouble(key) : null;
@@ -406,7 +369,6 @@ public class Request {
     /**
      * Obtiene el cuerpo como un mapa de objetos.
      *
-     * @return Mapa de objetos con los valores del cuerpo.
      */
     public Map<String, Object> getBodyAsMap() {
         return body.toMap();
