@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.angel.raa.modules</groupId>
+    <groupId>io.github.angel.raa</groupId>
     <artifactId>alba</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0-0</version>
+    <packaging>jar</packaging>
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>
+        Alba es un framework minimalista diseñado para crear servidores web en Java.
+    </description>
+    <url>https://github.com/Angel-Raa/Alba</url>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -14,6 +20,27 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
+
+    <!-- Desarrolladores -->
+    <developers>
+        <developer>
+            <name>Angel Aguero</name>
+            <email>angelagueror23@gmail.com</email>
+            <organization>Angel-Raa</organization>
+            <organizationUrl>https://github.com/Angel-Raa</organizationUrl>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:git://github.com/Angel-Raa/Alba.git</connection>
+        <developerConnection>scm:git:ssh://github.com/Angel-Raa/Alba.git</developerConnection>
+        <url>https://github.com/Angel-Raa/Alba</url>
+    </scm>
     <dependencies>
         <dependency>
             <groupId>org.thymeleaf</groupId>
@@ -98,4 +125,34 @@
 
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
