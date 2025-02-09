@@ -1,6 +1,7 @@
 package com.github.angel.raa.modules.core;
 
 import com.github.angel.raa.modules.exceptions.RouteException;
+import com.github.angel.raa.modules.templates.TemplateProcessor;
 import org.json.JSONObject;
 
 import java.io.Serial;
@@ -39,6 +40,8 @@ public class Response implements Serializable {
     private int status = 200;
     private Object body;
     private String charset = "UTF-8";
+    private final TemplateProcessor templateProcessor = new TemplateProcessor();
+    private boolean isTemplate = false;
 
     public Response() {
         headers.put("Content-Type", "application/json; charset=" + charset);
@@ -97,11 +100,39 @@ public class Response implements Serializable {
     }
 
 
+    /**
+     * Obtene el status del response
+     * @return int
+     *
+     */
     public int getStatus() {
         return status;
     }
 
+    /**
+     * Establece el cuerpo de la respuesta HTTP.
+     * <p>
+     * Este método permite asignar un objeto como cuerpo de la respuesta,
+     * que puede ser una cadena de texto, un objeto JSON, o cualquier otro tipo de contenido.
+     * </p>
+     *
+     * @param body El contenido del cuerpo de la respuesta. Puede ser un {@code String},
+     *             un {@code JSONObject}, o cualquier otro objeto serializable.
+     */
+    public void setBody(Object body) {
+        this.body = body;
+    }
 
+    /**
+     * Establece el estado de la respuesta HTTP.
+     * <p>
+     * Este método permite asignar un código de estado HTTP válido (entre 100 y 599)
+     * al response. Si se proporciona un valor fuera de este rango, se lanzará una excepción.
+     * </p>
+     * @param status El código de estado HTTP. Debe ser un valor entre 100 y 599.
+     * @throws IllegalArgumentException Si el código de estado proporcionado no es válido.
+     *
+     */
     public void setStatus(int status) {
         if (status < 100 || status > 599) {
             throw new IllegalArgumentException("Código de estado HTTP inválido: " + status);
@@ -134,6 +165,8 @@ public class Response implements Serializable {
         this.addHeader("Location", url);
 
     }
+
+
     public static Response Ok(JSONObject body) {
         return new Response(200, body);
     }
@@ -398,5 +431,57 @@ public class Response implements Serializable {
         addHeader("Access-Control-Allow-Origin", origin);
         addHeader("Access-Control-Allow-Methods", methods);
         addHeader("Access-Control-Allow-Headers", headers);
+    }
+
+    /**
+     * Renderiza una plantilla y la establece como el cuerpo de la respuesta.
+     * <p>
+     * Este método procesa una plantilla utilizando un motor de plantillas y
+     * establece el resultado como el contenido de la respuesta HTTP.
+     * Además, configura el encabezado {@code Content-Type} como {@code text/html}.
+     * </p>
+     *
+     * @param template Nombre o contenido de la plantilla a renderizar.
+     * @return La instancia actual de {@code Response}, permitiendo encadenamiento de métodos.
+     */
+    public  Response addTemplate(String template) {
+        addHeader("Content-Type", "text/html; charset=" + charset);
+        this.body = templateProcessor.render(template);
+        return this;
+    }
+
+    /**
+     * Renderiza una plantilla y la establece como el cuerpo de la respuesta.
+     * <p>
+     * Este método procesa una plantilla utilizando un motor de plantillas y
+     * establece el resultado como el contenido de la respuesta HTTP.
+     * Además, configura el encabezado {@code Content-Type} como {@code text/html}.
+     * </p>
+     * @param template
+     * @param key
+     * @param value
+     * @return {@code Response}
+     */
+    public Response addTemplate(String template, String key, Object value) {
+        addHeader("Content-Type", "text/html; charset=" + charset);
+        this.body = templateProcessor.render(template, key, value);
+        return this;
+    }
+
+    /**
+     * Renderiza una plantilla y la establece como el cuerpo de la respuesta.
+     * <p>
+     * Este método procesa una plantilla utilizando un motor de plantillas y
+     * establece el resultado como el contenido de la respuesta HTTP.
+     * Además, configura el encabezado {@code Content-Type} como {@code text/html}.
+     * </p>
+     * @param template
+     * @param model
+     * @return {@code Response}
+     */
+    public Response addTemplate(String template, Map<String, Object> model) {
+        addHeader("Content-Type", "text/html; charset=" + charset);
+        this.body = templateProcessor.render(template, model);
+        return this;
     }
 }

@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -83,14 +84,43 @@ public class Server {
     private final ExecutorService threadPool;
     private volatile boolean running = true;
 
+    /**
+     * Constructor de la clase Server.
+     * Inicializa el servidor con el puerto, host y tamaño del pool de hilos especificados.
+     * @param port
+     * @param host
+     * @param threadPoolSize
+     *
+     */
+    public Server(int port, String host, int threadPoolSize) {
+        this.port = port;
+        this.host = host;
+        this.threadPool = Executors.newFixedThreadPool(threadPoolSize);
+    }
+
+    /**
+     * Constructor de la clase Server.
+     * Inicializa el servidor con el puerto y host especificados.
+     * Tamaño del pool de hilos por defecto: 10
+     * @param port
+     * @param host
+     */
     public Server(int port, String host) {
         this.port = port;
         this.host = host;
         this.threadPool = Executors.newFixedThreadPool(10); // Pool de hilos
     }
 
+    /**
+     * Constructor de la clase Server.
+     * Inicializa el servidor con el puerto especificado.
+     * Host por defecto: "localhost"
+     * Tamaño del pool de hilos por defecto: 10
+     * @param port
+     */
     public Server(int port) {
         this(port, "localhost");
+
     }
 
     /**
@@ -307,6 +337,8 @@ public class Server {
      * Envía una respuesta HTTP al cliente.
      */
     private void sendResponse(OutputStream out, Response response) throws IOException {
-        out.write(response.build().getBytes());
+        String httpResponse = response.build();
+        out.write(httpResponse.getBytes(StandardCharsets.UTF_8));
+        out.flush();
     }
 }

@@ -1,0 +1,7 @@
+<configuration>
+    <logger name="org.thymeleaf" level="ERROR"/>
+    <logger name="org.thymeleaf.TemplateEngine" level="ERROR"/>
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

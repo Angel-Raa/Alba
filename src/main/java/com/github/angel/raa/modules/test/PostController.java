@@ -8,11 +8,11 @@ import com.github.angel.raa.modules.core.router.Controller;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PostController extends Controller {
-
-
     static List<PostEntity> posts = new ArrayList<>();
 
     public PostController() {
@@ -24,6 +24,13 @@ public class PostController extends Controller {
         posts.add(new PostEntity(5, "title5", "body5"));
     }
 
+    @Get("/home")
+    public  Response getHome(Request request){
+        Map<String, Object> model = new HashMap<>();
+        model.put("title", "Bienvenido a Alba");
+        model.put("message", "¡Hola desde Thymeleaf!");
+        return new Response().addTemplate("index.html", model);
+    }
 
     @Get("/posts")
     public static Response getPosts(Request request) {
@@ -40,7 +47,7 @@ public class PostController extends Controller {
     }
 
 
-    @Get("/:id")
+    //@Get("/:id")
     public static Response getPost(Request request) {
         if (posts.isEmpty()) {
             return new Response(401, "No posts found");
@@ -61,6 +68,16 @@ public class PostController extends Controller {
         System.out.println(body.getTitle());
         JSONObject  resp = request.getBodyAs(JSONObject.class);
         return Response.Created(resp);
+    }
+
+    @Get("/list")
+    public Response listado(Request request){
+        Response response = new Response();
+        Map<String, Object> model = new HashMap<>();
+        model.put("title", "Bienvenido a Alba");
+        model.put("message", "¡Hola desde Thymeleaf!");
+        model.put("posts", posts);
+        return response.addTemplate("list", model);
     }
 
 }
