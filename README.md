@@ -2,6 +2,29 @@
 
 **Alba** es un framework minimalista diseñado para crear servidores web en Java. Ofrece una API sencilla y flexible para gestionar rutas, middlewares y respuestas HTTP. Este framework está inspirado en herramientas populares como [Hono.js](https://hono.dev/) y [Express.js](https://expressjs.com/), pero con un enfoque ligero y minimalista, ideal para aprender cómo funcionan los servidores web desde cero.
 
+## Instalación
+
+Para agregar **Alba** a tu proyecto, puedes utilizar **Maven** o **Gradle**.
+
+### Maven
+
+Agrega la siguiente dependencia en el archivo `pom.xml`:
+
+```xml
+<dependency>
+    <groupId>io.github.angel-raa</groupId>
+    <artifactId>alba</artifactId>
+    <version>1.0-0</version>
+</dependency>
+```
+
+### Gradle
+
+Incluye la siguiente línea en el archivo `build.gradle`:
+
+```gradle
+implementation group: 'io.github.angel-raa', name: 'alba', version: '1.0-0'
+```
 ---
 
 ## **Nuevas Funcionalidades: Integración con Thymeleaf**
