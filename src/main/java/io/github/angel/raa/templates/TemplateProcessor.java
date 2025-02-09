@@ -62,7 +62,6 @@ public class TemplateProcessor {
      *
      * @param templateName Nombre de la plantilla (sin extensión).
      * @return String HTML renderizado.
-     * @throws Exception Si ocurre un error durante el procesamiento de la plantilla.
      */
     public String render(String templateName) {
         try {

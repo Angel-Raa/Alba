@@ -39,7 +39,6 @@ import java.util.Map;
  *         }
  *      </pre>
  * </p>
- *
  * @Author Angel Aguero
  */
 public class Request {
@@ -84,10 +83,7 @@ public class Request {
      * Construye una instancia de Request a partir de un InputStream y un Socket.
      * Lanza una IOException si la solicitud está vacía o malformada.
      *
-     * @param inputStream
-     * @param clientSocket
      * @return Request
-     * @throws IOException
      */
     public static Request buildRequest(InputStream inputStream, Socket clientSocket) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -134,7 +130,6 @@ public class Request {
     /**
      * Este método es útil para extraer la ruta sin la consulta.
      *
-     * @param fullPath
      * @return Ruta sin la consulta.
      */
     private static String extractPathWithoutQuery(String fullPath) {
@@ -145,7 +140,6 @@ public class Request {
     /**
      * Este método es útil para decodificar valores de parámetros de ruta y consulta.
      *
-     * @param value
      * @return Valor decodificado.
      */
     private static String decode(String value) {
@@ -177,7 +171,6 @@ public class Request {
     /**
      * Obtiene la ruta solicitada.
      *
-     * @return
      */
     public String getPath() {
         return path;
@@ -204,7 +197,6 @@ public class Request {
     /**
      * Obtiene el valor de un encabezado específico.
      *
-     * @param key
      * @return Valor del encabezado o null si no se encuentra.
      */
     public String getHeader(String key) {
@@ -242,7 +234,6 @@ public class Request {
     /**
      * Obtiene los parámetros de la solicitud.
      *
-     * @param params
      */
     public void setParams(Map<String, String> params) {
         this.params = params;
@@ -285,8 +276,6 @@ public class Request {
      *
      * @param key
      * @return Valor del parámetro de ruta como Integer o null si no es un número válido.
-     * @throws NullPointerException
-     * @throws IllegalArgumentException
      */
     public Integer getPathParamAsInt(String key) throws NullPointerException, IllegalArgumentException {
         String value = params.get(key);
@@ -301,10 +290,8 @@ public class Request {
      *
      * @param key
      * @return Valor del parámetro de ruta como Double o null si no es un número válido.
-     * @throws NullPointerException
-     * @throws IllegalArgumentException
      */
-    public Double getPathParamAsDouble(String key) throws IllegalArgumentException {
+    public Double getPathParamAsDouble(String key) {
         String value = params.get(key);
         return value != null ? Double.parseDouble(value) : null;
     }
@@ -402,8 +389,6 @@ public class Request {
     /**
      * Obtiene un valor del cuerpo como Integer.
      *
-     * @param key
-     * @return
      */
     public Integer getBodyInt(String key) {
         return body.has(key) ? body.getInt(key) : null;
@@ -412,7 +397,6 @@ public class Request {
     /**
      * Obtiene un valor del cuerpo como Double.
      *
-     * @param key
      * @return
      */
     public Double getBodyDouble(String key) {
@@ -441,11 +425,6 @@ public class Request {
 
     /**
      * Obtiene el cuerpo como un objeto de la clase especificada.
-     *
-     * @param typeReference
-     * @param <T>
-     * @return
-     * @throws IllegalArgumentException
      */
     public <T> T getBodyAs(TypeReference<T> typeReference) throws IllegalArgumentException {
         if (body == null || body.isEmpty()) {
