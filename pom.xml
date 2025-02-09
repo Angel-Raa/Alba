@@ -140,8 +140,6 @@
                     <publishingServerId>central</publishingServerId>
                 </configuration>
             </plugin>
-
-
         </plugins>
     </build>
 </project>
