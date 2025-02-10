@@ -4,7 +4,7 @@ import io.github.angel.raa.annotations.Delete;
 import io.github.angel.raa.annotations.Get;
 import io.github.angel.raa.annotations.Post;
 import io.github.angel.raa.annotations.Put;
-import io.github.angel.raa.core.Response;
+import io.github.angel.raa.http.Response;
 import io.github.angel.raa.handler.Handler;
 import io.github.angel.raa.middleware.Middleware;
 import org.json.JSONObject;

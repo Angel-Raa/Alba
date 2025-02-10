@@ -200,21 +200,38 @@ server.use(languageMiddleware);
 - Detecta automáticamente el idioma preferido del cliente.
 
 ---
+### D. **Middleware de CSRF (CsrfMiddleware)**
 
-### D. **Tipado Automático del Cuerpo de la Solicitud (getBodyAs)**
+El middleware **CSRF** protege contra ataques de falsificación de solicitudes entre sitios. Valida tokens CSRF en solicitudes **POST, PUT y DELETE**.
 
-La clase `Request` ahora incluye un método `getBodyAs` que convierte automáticamente el cuerpo JSON de una solicitud en un objeto Java tipado.
-
-#### **Uso:**
+#### **1. Configuración en el servidor**
 
 ```java
-public Response createUser(Request request) {
-    CreateUserRequest body = request.getBodyAs(CreateUserRequest.class);
-    return new Response(200, new JSONObject().put("message", "Usuario creado"));
-}
+Server server = new Server();
+server.use(new CsrfMiddleware()); // Habilitar protección CSRF
+server.start();
 ```
 
+#### **2. Uso en formularios con Thymeleaf**
+
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Formulario</title>
+</head>
+  <body>
+     <form action="/submit" method="post" csrf>
+       <input type="text" name="username" placeholder="Nombre de usuario" />
+       <button type="submit">Enviar</button>
+    </form>
+  </body>
+</html>
+```
 ---
+
+Si el token es inválido, la solicitud será rechazada con **403 Forbidden**.
+
 
 ### E. **Agrupación de Rutas (Route Grouping)**
 
@@ -296,4 +313,3 @@ public class Main {
 
 Este proyecto está bajo la licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
 
----

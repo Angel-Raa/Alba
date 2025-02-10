@@ -12,7 +12,7 @@ import java.util.Random;
 /**
  * Clase de utilidades `AlbaUtils`.
  * Esta clase proporciona métodos para validaciones de datos, conversión JSON, manejo de fechas
- * y generación de contraseñas seguras.
+ * y generación de contraseñas.
  */
 public class AlbaUtils {
     private static final ObjectMapper objectMapper = new ObjectMapper();

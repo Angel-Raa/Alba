@@ -1,4 +1,4 @@
-package io.github.angel.raa.core;
+package io.github.angel.raa.http;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -397,5 +397,13 @@ public class Request {
         } catch (Exception e) {
             throw new IllegalArgumentException("Error al convertir el cuerpo a la clase especificada", e);
         }
+    }
+
+    public String getParameter(String csrf) {
+        return "";
+    }
+
+    public String getCookie(String csrf) {
+        return "";
     }
 }

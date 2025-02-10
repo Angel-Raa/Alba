@@ -1,7 +1,7 @@
 package io.github.angel.raa.handler;
 
-import io.github.angel.raa.core.Request;
-import io.github.angel.raa.core.Response;
+import io.github.angel.raa.http.Request;
+import io.github.angel.raa.http.Response;
 
 /**
  * Handler interface for handling requests and responses.

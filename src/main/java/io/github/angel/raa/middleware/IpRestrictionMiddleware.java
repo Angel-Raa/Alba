@@ -1,7 +1,7 @@
 package io.github.angel.raa.middleware;
 
-import io.github.angel.raa.core.Request;
-import io.github.angel.raa.core.Response;
+import io.github.angel.raa.http.Request;
+import io.github.angel.raa.http.Response;
 import org.apache.commons.net.util.SubnetUtils;
 import org.json.JSONObject;
 

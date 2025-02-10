@@ -1,8 +1,8 @@
 package io.github.angel.raa.middleware;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import io.github.angel.raa.core.Request;
-import io.github.angel.raa.core.Response;
+import io.github.angel.raa.http.Request;
+import io.github.angel.raa.http.Response;
 import io.github.angel.raa.exceptions.InvalidPathPatternException;
 import io.github.angel.raa.utils.AlbaUtils;
 import org.json.JSONObject;

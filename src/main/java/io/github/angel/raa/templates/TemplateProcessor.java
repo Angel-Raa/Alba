@@ -36,6 +36,7 @@ public class TemplateProcessor {
         templateResolver.setCharacterEncoding("UTF-8"); // Codificación
         templateResolver.setCacheable(templateConfig.isCacheEnabled());      // Desactivar caché en desarrollo
         this.templateEngine.setTemplateResolver(templateResolver);
+        this.templateEngine.addDialect(new CsrfDialect());
     }
 
 

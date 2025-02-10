@@ -1,8 +1,8 @@
 package io.github.angel.raa.middleware;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.angel.raa.core.Request;
-import io.github.angel.raa.core.Response;
+import io.github.angel.raa.http.Request;
+import io.github.angel.raa.http.Response;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;

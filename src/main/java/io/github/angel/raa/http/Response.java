@@ -1,6 +1,7 @@
-package io.github.angel.raa.core;
+package io.github.angel.raa.http;
 
 import io.github.angel.raa.exceptions.RouteException;
+import io.github.angel.raa.security.CsrfToken;
 import io.github.angel.raa.templates.TemplateProcessor;
 import org.json.JSONObject;
 
@@ -42,6 +43,7 @@ public class Response implements Serializable {
     private Object body;
     private final String charset = "UTF-8";
     private final boolean isTemplate = false;
+    private String csrfToken;
 
     public Response() {
         headers.put("Content-Type", "application/json; charset=" + charset);
@@ -439,5 +441,23 @@ public class Response implements Serializable {
         addHeader("Content-Type", "text/html; charset=" + charset);
         this.body = templateProcessor.render(template, model);
         return this;
+    }
+
+    /**
+     * Agrega un token CSRF al response
+     *
+     */
+    public Response addCsrfToken(){
+        this.csrfToken = CsrfToken.generateToken();
+        this.cookies.put("X-CSRF-TOKEN", this.csrfToken);
+        return this;
+    }
+
+    /**
+     * Obtiene el token CSRF del response
+     *
+     */
+    public String getCsrfToken() {
+        return csrfToken;
     }
 }
